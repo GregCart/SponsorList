@@ -9,6 +9,30 @@
 
         <script>
             $(function(){
+                const btn = document.querySelector('.btn-toggle');
+
+                btn.addEventListener('click', function() {
+                // Then toggle (add/remove) the .dark-theme class to the body
+                    document.body.classList.toggle('dark-theme');  
+                });
+
+                // const btn = document.querySelector(".btn-toggle");
+                // // Select the stylesheet <link>
+                // const theme = document.querySelector("#theme-link");
+
+                // // Listen for a click on the button
+                // btn.addEventListener("click", function() {
+                //     // If the current URL contains "ligh-theme.css"
+                //     if (theme.getAttribute("href") == "light-theme.css") {
+                //         // ... then switch it to "dark-theme.css"
+                //         theme.href = "dark-theme.css";
+                //     // Otherwise...
+                //     } else {
+                //         // ... switch it to "light-theme.css"
+                //         theme.href = "light-theme.css";
+                //     }
+                // });
+
                 let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
                 let body = document.getElementById("tableBody");
                 /*
@@ -34,9 +58,10 @@
             });
         </script>
     </head>
-    <body>
+    <body class="dark-theme || light-theme">
         <h1>Sponsors List</h1>
         <br/>
+        <button class="btn-toggle">Toggle Dark Mode</button>
         <div id="SponsorTable">
             <table class="centered">
                 <thead>

@@ -17,11 +17,6 @@ body {
     background: #fff;
 }
 
-body.dark-theme {
-    color: #eee;
-    background: #121212;
-}
-
 .centered {
     position: fixed;
     /* top: 50%; */

@@ -13,11 +13,6 @@ td {
 }
 
 body {
-    color: #222;
-    background: #fff;
-}
-
-body.dark-theme {
     color: #eee;
     background: #121212;
 }
