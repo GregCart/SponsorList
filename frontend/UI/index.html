@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sponsors List</title>
+
+        <link rel="stylesheet" href="./index.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <script>
+            $(function(){
+                let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
+                let body = document.getElementById("tableBody");
+                /*
+                    <row>
+                        <td>Ur Mom</td>
+                        <td>Deez Nuts</td>
+                        <td>L33TH4X0R</td>
+                        <td>2/24/25-11:15_AM_CST</td>
+                        <td>Never</td>
+                        <td>true</td>
+                        <td>Never</td>
+                    </row>
+                */
+                let row = document.createElement("tr");
+                testData.forEach(element => {
+                    let data = document.createElement("td");
+                    data.textContent = element;
+                    row.appendChild(data);
+                });
+                
+
+                body.appendChild(row);
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Sponsors List</h1>
+        <br/>
+        <div id="SponsorTable">
+            <table class="centered">
+                <thead>
+                    <row>
+                        <td>Personality</td>
+                        <td>Sponsor Name</td>
+                        <td>Debut'd Platform</td>
+                        <td>Link/Code</td>
+                        <td>Date Added</td>
+                        <td>Last Checked</td>
+                        <td>Valid?</td>
+                        <td>Last Verified</td>
+                    </row>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
