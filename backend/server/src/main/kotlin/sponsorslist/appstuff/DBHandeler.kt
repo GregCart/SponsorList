@@ -7,7 +7,7 @@ import java.io.FileWriter
 
 class DBHandeler {
     companion object {
-        const val path = "src/main/resources/data/sponsorsList.json";
+        const val path = "/sponsorsList.json";
     }
 
 
@@ -24,17 +24,11 @@ class DBHandeler {
 
         if (f == null || !f.exists()) {
             println("hahahaha")
-            if (f.mkdirs()) {
-                FileWriter(path).use { writer ->
-                    gson.toJson(sponsorsList, writer)
-                }
-            } else {
-                var dir = File("src/main/resources/data")
-
-                throw Error("dir failed? " + dir.mkdirs())
+            FileWriter(path).use { writer ->
+                gson.toJson(sponsorsList, writer)
             }
         }
-        gson.fromJson(f.readText(), sponsorsList::class.java)
+        sponsorsList.addAll(gson.fromJson(f.readText(), sponsorsList::class.java))
 
 //        for (str: String in f.readLines()) {
 //            sponsorsList.add(gson.fromJson(str, SponsorLinkItem::class.java))
