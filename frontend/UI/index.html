@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="./index.css" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+        <script src="index.js"></script>
         <script>
             $(function(){
                 const btn = document.querySelector('.btn-toggle');
@@ -32,6 +32,12 @@
                 //         theme.href = "light-theme.css";
                 //     }
                 // });
+
+                if (healthCheck()) {
+                    console.log("Connected to backend")
+                } else {
+                    console.error("Could not connect to backend")
+                }
 
                 let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
                 let body = document.getElementById("tableBody");
@@ -90,6 +96,7 @@
                 </tbody>
             </table>
         </div>
+        <br />
         <div id="SponsorTable">
             <table class="centered">
                 <thead>

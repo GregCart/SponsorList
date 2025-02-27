@@ -1,7 +1,5 @@
-FROM nginx
+FROM nginx:alpine
 
-WORKDIR UI/
-
-COPY . /usr/share/nginx/html
+COPY ./UI /usr/share/nginx/html
 
 EXPOSE 80
