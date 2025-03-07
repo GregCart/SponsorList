@@ -1,4 +1,4 @@
-package tabletoprug.sponsorslist.plugins
+package sponsorlist.plugins
 
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -7,8 +7,8 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import sponsorslist.appstuff.DBHandeler
-import sponsorslist.appstuff.SponsorLinkItem
+import sponsorlist.appstuff.DBHandeler
+import sponsorlist.appstuff.SponsorLinkItem
 
 
 val handler = DBHandeler();
@@ -24,14 +24,16 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
-        get("/getAll") {
-            call.respond(handler.getList());
+        get("/getItemList") {
+            call.respond(handler.sponsorsList);
         }
-        post("/addToList") {
-            call.respond(handler.addToList(call.receive<SponsorLinkItem>()))
+        post("/addToList/{type}") {
+            val type = call.pathParameters["type"]
+            call.respond(type?.let { handler.addToList(it, call.receive<SponsorLinkItem>()) }!!)
         }
         get("/{personality}") {
-
+            var personalityName = call.pathParameters["personality"];
+            call.respond(personalityName?.let { handler.personalityBySponsorName(it) }!!)
         }
     }
 }

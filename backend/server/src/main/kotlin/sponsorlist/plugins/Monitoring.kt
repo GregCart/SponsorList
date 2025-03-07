@@ -1,4 +1,4 @@
-package tabletoprug.sponsorslist.plugins
+package sponsorlist.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.*

@@ -1,4 +1,4 @@
-package tabletoprug.sponsorslist.plugins
+package sponsorlist.plugins
 
 import io.ktor.serialization.gson.*
 //import io.ktor.serialization.kotlinx.json.*

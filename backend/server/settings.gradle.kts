@@ -1,1 +1,1 @@
-rootProject.name = "tabletoprug.sponsorslist"
+rootProject.name = "tabletoprug.sponsorlist"

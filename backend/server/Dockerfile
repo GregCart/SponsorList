@@ -1,28 +1,40 @@
-# Stage 1: Build the application
-FROM gradle:jdk21 AS builder
+# Stage 1: Cache Gradle dependencies
+FROM gradle:latest AS cache
 
-WORKDIR /app
+RUN mkdir -p /home/gradle/cache_home
 
-COPY . .
-#COPY ./gradle ./gradle
-#COPY ./src/main ./src/main
-#COPY ./build.gradle.kts ./build.gradle.kts
-#COPY ./Dockerfile ./Dockerfile
-#COPY ./gradle.properties ./gradle.properties
-#COPY ./gradlew ./gradlew
-#COPY ./gradlew.bat ./gradlew.bat
-#COPY ./README.md ./README.md
-#COPY ./settings.gradle.kts ./settings.gradle.kts
+ENV GRADLE_USER_HOME=/home/gradle/cache_home
 
-RUN gradle build --no-daemon
+COPY build.gradle.* gradle.properties /home/gradle/app/
+COPY gradle /home/gradle/app/gradle
 
-# Stage 2: Create the runtime image
-FROM eclipse-temurin:21-jre-alpine
+WORKDIR /home/gradle/app
 
-WORKDIR /app
+RUN gradle clean build -i --stacktrace
 
-COPY --from=builder /app/build/libs/*.jar app.jar
+# Stage 2: Build Application
+FROM gradle:latest AS build
 
-EXPOSE 8080
+COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
+COPY . /usr/src/app/
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+WORKDIR /usr/src/app
+
+COPY --chown=gradle:gradle . /home/gradle/src
+
+WORKDIR /home/gradle/src
+
+# Build the fat JAR, Gradle also supports shadow
+# and boot JAR by default.
+RUN gradle buildFatJar --no-daemon -x test
+
+# Stage 3: Create the Runtime Image
+FROM amazoncorretto:21 AS runtime
+
+EXPOSE 9000:9000
+
+RUN mkdir /app
+
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/ktor-docker-sample.jar
+
+ENTRYPOINT ["java","-jar","/app/ktor-docker-sample.jar"]

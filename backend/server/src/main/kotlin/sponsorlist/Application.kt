@@ -1,7 +1,7 @@
-package tabletoprug.sponsorslist
+package sponsorlist
 
 import io.ktor.server.application.*
-import tabletoprug.sponsorslist.plugins.*
+import sponsorlist.plugins.*
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)

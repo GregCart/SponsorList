@@ -16,22 +16,17 @@
                     document.body.classList.toggle('dark-theme');  
                 });
 
-                // const btn = document.querySelector(".btn-toggle");
-                // // Select the stylesheet <link>
-                // const theme = document.querySelector("#theme-link");
+                const form = document.getElementById("AddSponsorBody");
 
-                // // Listen for a click on the button
-                // btn.addEventListener("click", function() {
-                //     // If the current URL contains "ligh-theme.css"
-                //     if (theme.getAttribute("href") == "light-theme.css") {
-                //         // ... then switch it to "dark-theme.css"
-                //         theme.href = "dark-theme.css";
-                //     // Otherwise...
-                //     } else {
-                //         // ... switch it to "light-theme.css"
-                //         theme.href = "light-theme.css";
-                //     }
-                // });
+                form.addEventListener('submit', function(event) {
+                // Then toggle (add/remove) the .dark-theme class to the body
+                    event.preventDefault()
+
+                    const data = new FormData(form)
+                    let resp = addSponsorItem(data);
+                    alert(resp.json())
+                });
+
 
                 if (healthCheck()) {
                     console.log("Connected to backend")
@@ -39,21 +34,13 @@
                     console.error("Could not connect to backend")
                 }
 
-                let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
+                // let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
                 let body = document.getElementById("tableBody");
-                /*
-                    <row>
-                        <td>Ur Mom</td>
-                        <td>Deez Nuts</td>
-                        <td>L33TH4X0R</td>
-                        <td>2/24/25-11:15_AM_CST</td>
-                        <td>Never</td>
-                        <td>true</td>
-                        <td>Never</td>
-                    </row>
-                */
+                
                 let row = document.createElement("tr");
-                testData.forEach(element => {
+                let data = getSponsorsList()
+                console.log(data)
+                data.forEach(element => {
                     let data = document.createElement("td");
                     data.textContent = element;
                     row.appendChild(data);
@@ -65,6 +52,7 @@
         </script>
     </head>
     <body class="dark-theme || light-theme">
+        <noscript>Please enable JS, I promise it's necessary for this page</noscript>
         <h1>Sponsors List</h1>
         <br/>
         <button class="btn-toggle">Toggle Dark Mode</button>
@@ -76,26 +64,34 @@
                         <td>Sponsor Name</td>
                         <td>Debut'd Platform</td>
                         <td>Link/Code</td>
+                        <td>Sponsor Date Start</td>
                         <td>Date Added</td>
                         <td>Last Checked</td>
-                        <td>Valid?</td>
+                        <td>Valid?/Scam?</td>
                         <td>Last Verified</td>
                     </row>
                 </thead>
-                <tbody id="AddSponsorBody">
-                    <row>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="text" /></td>
-                        <td><input type="date" /></td>
-                        <td><input type="datetime" disabled /></td>
-                        <td><input type="checkbox" /></td>
-                        <td><input type="datetime" disabled /></td>
-                    </row>
+                <tbody>
+                    <form id="AddSponsorBody">
+                        <row>
+                            <td><input type="text" /></td>
+                            <td><input type="text" /></td>
+                            <td><input type="text" /></td>
+                            <td><input type="text" /></td>
+                            <td><input type="date" /></td>
+                            <td><input type="datetime" disabled /></td>
+                            <td><input type="datetime" disabled /></td>
+                            <td><input type="checkbox" disabled /></td>
+                            <td><input type="datetime" disabled /></td>
+                        </row>
+                        <row>
+                            <input type="submit" value="Submit" />
+                        </row>
+                    </form>
                 </tbody>
             </table>
         </div>
+        <br />
         <br />
         <div id="SponsorTable">
             <table class="centered">
@@ -105,9 +101,10 @@
                         <td>Sponsor Name</td>
                         <td>Debut'd Platform</td>
                         <td>Link/Code</td>
+                        <td>Sponsor Date Start</td>
                         <td>Date Added</td>
                         <td>Last Checked</td>
-                        <td>Valid?</td>
+                        <td>Valid?/Scam?</td>
                         <td>Last Verified</td>
                     </row>
                 </thead>
