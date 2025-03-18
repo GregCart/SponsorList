@@ -8,7 +8,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import sponsorlist.appstuff.DBHandeler
-import sponsorlist.appstuff.SponsorLinkItem
+import sponsorlist.appstuff.SponsorItem
+import java.io.File
 
 
 val handler = DBHandeler();
@@ -29,11 +30,18 @@ fun Application.configureRouting() {
         }
         post("/addToList/{type}") {
             val type = call.pathParameters["type"]
-            call.respond(type?.let { handler.addToList(it, call.receive<SponsorLinkItem>()) }!!)
+            call.respond(type?.let { handler.addToList(it, call.receive<SponsorItem>()) }!!)
         }
         get("/{personality}") {
             var personalityName = call.pathParameters["personality"];
             call.respond(personalityName?.let { handler.personalityBySponsorName(it) }!!)
+        }
+        get("/download") {
+            call.respond(handler.getFile());
+        }
+        post("/upload") {
+            val file = call.receive<File>()
+            call.respond(handler.addFromFile(file))
         }
     }
 }

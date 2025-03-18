@@ -3,16 +3,18 @@ package sponsorlist.appstuff
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
+import java.io.File
+import java.io.FileReader
 import java.io.FileWriter
 
 class DBHandeler {
     companion object {
-        const val path = "/data/sponsorsList.json";
+        const val path = "./data/sponsorsList.json";
     }
 
 
     val gson = Gson()
-    val sponsorsList: MutableList<SponsorLinkItem> = mutableListOf<SponsorLinkItem>()
+    val sponsorsList: MutableList<SponsorItem> = mutableListOf<SponsorItem>()
     val personalities: MutableSet<Personality> = mutableSetOf<Personality>()
     val platforms: MutableSet<Platform> = mutableSetOf<Platform>()
 
@@ -22,14 +24,14 @@ class DBHandeler {
     }
 
     fun readFromFile() {
-//        val fileReader = FileReader(path)
-        val fileStream = object {}.javaClass.getResourceAsStream(path)?.bufferedReader()
+        val fileReader = FileReader(path)
+        val fileStream = if (fileReader != null) fileReader.buffered() else object {}.javaClass.getResourceAsStream(path)?.bufferedReader()
         val jsonReader = JsonReader(fileStream)
 
         try {
             var type = object : TypeToken<Map<String, List<Any>>>() {}.type
             val jsonMap: Map<String, List<Any>> = gson.fromJson(jsonReader, type);
-            sponsorsList.addAll(jsonMap["sponsorsListItem"] as MutableList<SponsorLinkItem>);
+            sponsorsList.addAll(jsonMap["sponsorsListItem"] as MutableList<SponsorItem>);
             personalities.addAll((jsonMap["personalities"] as MutableList<Personality>));
             platforms.addAll(jsonMap["platforms"] as MutableList<Platform>);
         } finally {
@@ -52,7 +54,7 @@ class DBHandeler {
         writer.close()
     }
 
-    fun sponsorsListItemBySponsorName(key: String): List<SponsorLinkItem> {
+    fun sponsorsListItemBySponsorName(key: String): List<SponsorItem> {
         return sponsorsList.filter { it.sponsorName == key};
     }
 
@@ -62,13 +64,13 @@ class DBHandeler {
 
     fun addToList(listName: String, item: Any) {
         when (listName) {
-            "sponsorsLink", "sponsorsList" -> addSponsorLink(item as SponsorLinkItem)
+            "sponsorsLink", "sponsorsList" -> addSponsorLink(item as SponsorItem)
             "personality" -> addPersonality(item as Personality)
             "platform" -> addPlatform(item as Platform)
         }
     }
 
-    fun addSponsorLink(item: SponsorLinkItem) {
+    fun addSponsorLink(item: SponsorItem) {
         this.sponsorsList.add(item)
         writeToFile()
     }
@@ -80,6 +82,31 @@ class DBHandeler {
 
     fun addPlatform(platform: Platform) {
         this.platforms.add(platform)
+        writeToFile()
+    }
+
+    fun getFile(): File {
+        return File(path);
+    }
+
+    fun addFromFile(file: File) {
+        val data = gson.fromJson(file.readText(), FileStructure::class.java)
+        if (!data.personalities.isNullOrEmpty()) {
+            for (p: Personality in data.personalities) {
+                this.addPersonality(p);
+            }
+        }
+        if (!data.sponsorItems.isNullOrEmpty()) {
+            for (s: SponsorItem in data.sponsorItems) {
+                this.addSponsorLink(s);
+            }
+        }
+        if (!data.platforms.isNullOrEmpty()) {
+            for (p: Platform in data.platforms) {
+                this.addPlatform(p);
+            }
+        }
+
         writeToFile()
     }
 }
