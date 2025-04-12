@@ -24,3 +24,7 @@ body {
     transform: translate(-50%, 0%);
 }
 
+input:disabled {
+    background-color: blanchedalmond;
+}
+
