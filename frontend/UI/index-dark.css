@@ -1,17 +1,3 @@
-* {
-    align-content: center;
-    align-items: center;
-    align-self: center;
-    text-align: center;
-}
-
-td {
-    outline-style: solid;
-    outline-width: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 body {
     color: #eee;
     background: #121212;

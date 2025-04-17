@@ -7,6 +7,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="index.js"></script>
+        <script src="api.js"></script>
         <script>
             $(window).on('load', function(){
                 const btn = document.querySelector('.btn-toggle');
@@ -18,16 +19,25 @@
 
                 const form = document.getElementById("AddSponsorBody");
 
-                console.log(form.children[3].children[1].children[0].children[6].children[0])
-                form.children[3].children[1].children[0].children[6].children[0].value = new Date()
+                // console.log(form.children[3].children[1].children[0].children[6].children[0])
+                form[6].value = new Date()
+                form[6].innerHTML = form[6].value
 
                 form.addEventListener('submit', function(event) {
                 // Then toggle (add/remove) the .dark-theme class to the body
                     event.preventDefault()
 
-                    const data = new FormData(form)
-                    console.log(data)
-                    let resp = addSponsorItem(data);
+                    const data = form.elements;
+                    let reqData = {};
+
+                    Object.keys(data).forEach((key) => {
+                        if (isNaN(key)) {
+                            reqData[key] = data[key].value;
+                        }
+                    })
+
+                    console.log(reqData)
+                    let resp = addSponsorItem(reqData);
                     alert(resp.json())
                 });
 
@@ -36,6 +46,7 @@
                     console.log("Connected to backend")
                 } else {
                     console.error("Could not connect to backend")
+                    return;
                 }
 
                 // let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
@@ -60,42 +71,69 @@
         <h1>Sponsors List</h1>
         <br/>
         <button class="btn-toggle">Toggle Dark Mode</button>
-        <br />
+        <br/>
         <div id="AddSponsorBox">
             <form id="AddSponsorBody">
-                <table class="centered">
-                    <thead>
-                        <row>
-                            <td>Personality</td>
-                            <td>Sponsor Name</td>
-                            <td>Debut'd Platform</td>
-                            <td>Link/Code</td>
-                            <td>Origional Post</td>
-                            <td>Sponsor Date Start</td>
-                            <td>Date Added</td>
-                            <td>Last Checked</td>
-                            <td>Valid?/Scam?</td>
-                            <td>Last Verified</td>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <td><input type="text" required /></td>
-                            <td><input type="text" required /></td>
-                            <td><input type="text" required /></td>
-                            <td><input type="text" required /></td>
-                            <td><input type="url" required /></td>
-                            <td><input type="date" /></td>
-                            <td><input type="datetime" disabled /></td>
-                            <td><input type="datetime" disabled /></td>
-                            <td><input type="checkbox" disabled /></td>
-                            <td><input type="datetime" disabled /></td>
-                        </row>
-                        <row>
-                            <input type="submit" value="Submit" />
-                        </row>
-                    </tbody>
-                </table>
+                <div class="spaced">
+                    <div>
+                        <span>
+                            <label for="personality">Personality</label>
+                            <input type="text" id="personality" required />
+                        </span>
+                        <span>
+                            <label for="sponsor">Sponsor Name</label>
+                            <input type="text" id="sponsor" required />
+                        </span>
+                        <span>
+                            <label for="platform">Debut'd Platform</label>
+                            <input type="text" id="platform" required />
+                        </span>
+                        <span>
+                            <label for="code">Link/Code</label>
+                            <input type="text" id="code" required />
+                        </span>
+                        <span>
+                            <label for="post">Origional Post</label>
+                            <input type="url" id="post" required />
+                        </span>
+                        <span>
+                            <label for="start">Sponsor Date Start</label>
+                            <input type="date" id="start" />
+                        </span>
+                    </div>
+                </div>
+                <div class="spaced">
+                    <div>
+                        <span></span>
+                        <span>
+                            <label for="added">Date Added</label>
+                            <input type="datetime" id="added" disabled />
+                        </span>
+                        <span>
+                            <label for="checked">Last Checked</label>
+                            <input type="datetime" id="checked" disabled />
+                        </span>
+                        <span>
+                            <span>
+                                <label for="valid">Valid?</label>
+                                <input type="checkbox" id="valid" disabled />
+                            </span>
+                            <span>
+                                <label for="scam">Scam?</label>
+                                <input type="checkbox" id="scam" disabled />
+                            </span>
+                        </span>
+                        <span>
+                            <label for="verified">Last Verified</label>
+                            <input type="datetime" id="verified" disabled />
+                        </span>
+                        <span></span>
+                    </div>
+                </div>
+                <div><br/></div>
+                <div>
+                    <input type="submit" value="Submit" />
+                </div>
             </form>
         </div>
         <br />
@@ -112,7 +150,8 @@
                         <td>Sponsor Date Start</td>
                         <td>Date Added</td>
                         <td>Last Checked</td>
-                        <td>Valid?/Scam?</td>
+                        <td>Valid?</td>
+                        <td>Scam?</td>
                         <td>Last Verified</td>
                     </row>
                 </thead>

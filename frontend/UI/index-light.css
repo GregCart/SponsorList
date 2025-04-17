@@ -17,6 +17,10 @@ body {
     background: #fff;
 }
 
+body input:disabled {
+    color: #fff
+}
+
 .centered {
     position: fixed;
     /* top: 50%; */

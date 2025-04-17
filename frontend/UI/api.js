@@ -9,9 +9,9 @@ async function healthCheck() {
         if (resp.text() == "Hello World!") {
             check = true;
         }
-    })
-
-    return check;
+    }).finally(() =>{
+        return check;
+    });
 }
 
 async function getSponsorsList() {
