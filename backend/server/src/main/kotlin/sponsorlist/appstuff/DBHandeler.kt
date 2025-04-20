@@ -36,7 +36,6 @@ class DBHandeler {
             platforms.addAll(jsonMap["platforms"] as MutableList<Platform>);
         } finally {
             jsonReader.close()
-            jsonReader.close()
         }
 
     }

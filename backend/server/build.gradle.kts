@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.ktor.server.config.yaml)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
+    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
+    implementation ("com.amazonaws:aws-lambda-java-events:3.11.1")
 }
 
 ktor {
@@ -58,4 +60,9 @@ ktor {
             )
         )
     }
+}
+
+tasks.wrapper {
+    gradleVersion = "8.13"
+    distributionType = Wrapper.DistributionType.ALL
 }
