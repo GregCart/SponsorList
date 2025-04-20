@@ -55,7 +55,7 @@ class DBHandeler {
     }
 
     fun sponsorsListItemBySponsorName(key: String): List<SponsorItem> {
-        return sponsorsList.filter { it.sponsorName == key};
+        return sponsorsList.filter { it.sponsor == key};
     }
 
     fun personalityBySponsorName(key: String): List<Personality> {
