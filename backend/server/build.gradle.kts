@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.register
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -5,8 +6,10 @@ plugins {
     alias(libs.plugins.kotlin.plugin.serialization)
 }
 
+val handlers = listOf("SponsorItemHandler", "PlatformHandler", "PersonalityHandler", "FileStructureHandler")
+
 group = "tabletoprug"
-version = "0.1.0"
+version = "0.5.1"
 
 application {
     mainClass = "io.ktor.server.netty.EngineMain"
@@ -38,6 +41,8 @@ dependencies {
     testImplementation(libs.kotlin.test.junit)
     implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
     implementation ("com.amazonaws:aws-lambda-java-events:3.11.1")
+
+    testImplementation("io.mockk:mockk:1.14.0")
 }
 
 ktor {
@@ -66,3 +71,26 @@ tasks.wrapper {
     gradleVersion = "8.13"
     distributionType = Wrapper.DistributionType.ALL
 }
+
+tasks.jar {
+    manifest {
+        attributes.set("Main-Class", "io.ktor.server.netty.EngineMain")
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(configurations.runtimeClasspath.get().map(::zipTree))
+//    dependsOn(handlers)
+}
+
+//handlers.forEach {
+//    tasks.register<Jar>(it) {
+//        include("*")
+//        manifest {
+//            attributes.set("Main-Class", "sponsorlist.$it")
+//        }
+//        archiveBaseName = it
+//        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//        from(configurations.runtimeClasspath.get().map(::zipTree))
+////        with(tasks.jar as CopySpec?)
+//    }
+//}

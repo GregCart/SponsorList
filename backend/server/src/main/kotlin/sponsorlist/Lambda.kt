@@ -66,7 +66,7 @@ public class PersonalityHandler() : RequestHandler<Personality?, String> {
     }
 }
 
-public class FileHandler() : RequestHandler<FileStructure?, String> {
+public class FileStructureHandler() : RequestHandler<FileStructure?, String> {
     override fun handleRequest(
         p0: FileStructure?,
         p1: Context?
@@ -77,9 +77,9 @@ public class FileHandler() : RequestHandler<FileStructure?, String> {
             return gson.toJson(handler.sponsorsList)
         } else {
             p1?.logger?.log("FileHandler :: Add ${p0}")
-            handler.addToList("sponsorsList", p0.sponsorItems[0])
-            handler.addToList("personality", p0.personalities[0])
-            handler.addToList("platform", p0.platforms[0])
+            p0.sponsorItems.forEach { handler.addToList("sponsorsList", it) }
+            p0.personalities.forEach { handler.addToList("personality", it) }
+            p0.platforms.forEach { handler.addToList("platform", it) }
             return "Success"
         }
     }

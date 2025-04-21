@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.FileWriter
 
@@ -24,7 +25,16 @@ class DBHandeler {
     }
 
     fun readFromFile() {
-        val fileReader = FileReader(path)
+        val fileReader = try {
+            FileReader(path)
+        } catch (ex: FileNotFoundException) {
+            File(path).apply {
+                this.parentFile.mkdirs()
+                writeToFile()
+            }
+            FileReader(path)
+        }
+
         val fileStream = if (fileReader != null) fileReader.buffered() else object {}.javaClass.getResourceAsStream(path)?.bufferedReader()
         val jsonReader = JsonReader(fileStream)
 
