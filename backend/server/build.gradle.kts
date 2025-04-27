@@ -38,10 +38,15 @@ dependencies {
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
     testImplementation(libs.ktor.server.test.host)
-    testImplementation(libs.kotlin.test.junit)
     implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
     implementation ("com.amazonaws:aws-lambda-java-events:3.11.1")
+    implementation(platform("software.amazon.awssdk:bom:2.27.21"))
+    implementation("software.amazon.awssdk:sso")
+    implementation("software.amazon.awssdk:s3")
+    implementation("software.amazon.awssdk:apache-client")
+    implementation("software.amazon.awssdk:ssooidc")
 
+    testImplementation(libs.kotlin.test.junit)
     testImplementation("io.mockk:mockk:1.14.0")
 }
 
@@ -72,15 +77,15 @@ tasks.wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
 
-tasks.jar {
-    manifest {
-        attributes.set("Main-Class", "io.ktor.server.netty.EngineMain")
-    }
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from(configurations.runtimeClasspath.get().map(::zipTree))
-//    dependsOn(handlers)
-}
+//tasks.jar {
+//    manifest {
+//        attributes.set("Main-Class", "io.ktor.server.netty.EngineMain")
+//    }
+//
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    from(configurations.runtimeClasspath.get().map(::zipTree))
+////    dependsOn(handlers)
+//}
 
 //handlers.forEach {
 //    tasks.register<Jar>(it) {

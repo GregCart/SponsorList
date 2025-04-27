@@ -10,6 +10,8 @@ data class SponsorItem(
     var valid:Boolean=false, var scam:Boolean=false
 );
 
+data class SponsorItemList(val list: List<SponsorItem>)
+
 data class Platform(
     val name: String = "",
     val url: String? = null,
@@ -17,14 +19,18 @@ data class Platform(
     val description: String = ""
 )
 
+data class PlatformList(val list: List<SponsorItem>)
+
 data class Personality(
     val name: String = "",
     val platforms: Map<Platform, String> = emptyMap(),
     val description: String? = null
 )
 
-data class FileStructure(
-    val sponsorItems: List<SponsorItem> = emptyList<SponsorItem>(),
-    val platforms: List<Platform> = emptyList<Platform>(),
-    val personalities: List<Personality> = emptyList<Personality>()
-)
+data class PersonalityList(val list: List<Personality>)
+
+//data class FileStructure(
+//    val sponsorItems: List<SponsorItem> = emptyList<SponsorItem>(),
+//    val platforms: List<Platform> = emptyList<Platform>(),
+//    val personalities: List<Personality> = emptyList<Personality>()
+//)
