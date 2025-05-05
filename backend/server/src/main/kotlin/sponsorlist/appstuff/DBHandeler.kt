@@ -7,6 +7,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
 import java.io.FileWriter
+import java.util.Date
 
 
 interface IDBHandler {
@@ -17,16 +18,35 @@ interface IDBHandler {
         const val PLATFORMS = "platforms";
     }
 
-    public fun getSponsorList(): List<SponsorItem>;
-    public fun addSponsorItem(): Unit;
-    public fun removeSponsorItem(): SponsorItem;
+    public fun getSponsorList(personality: String ="",
+                              sponsor: String = "",
+                              platform:String="",
+                              code:String="",
+                              post:String="",
+                              start: Date = Date(),
+                              added:Date = Date(),
+                              verified:Date? = null,
+                              valid:Boolean?=null,
+                              scam:Boolean?=null): List<SponsorItem>;
+    public fun addSponsorItem(item: SponsorItem): String;
+    public fun addSponsorItems(items: SponsorItemList): SponsorItem {
+        items.list.forEach { it -> if (addSponsorItem(it) != "") else return it }
+
+        return SponsorItem();
+    }
+    public fun removeSponsorItem(personality: String ="",
+                                 sponsor: String = "",
+                                 platform:String="",
+                                 start: Date = Date(),
+                                 added:Date = Date(),
+                                 scam:Boolean?=null): SponsorItem;
 
     public fun getPersonalityList(): List<Personality>;
-    public fun addPersonality(): Unit;
+    public fun addPersonality(person: Personality): Unit;
     public fun removePersonality(): Personality;
 
     public fun getPlatformList(): List<Platform>;
-    public fun addPlatform(): Unit;
+    public fun addPlatform(plat: Platform): Unit;
     public fun removePlatform(): Platform;
 
     public fun addFromFile(file: File);

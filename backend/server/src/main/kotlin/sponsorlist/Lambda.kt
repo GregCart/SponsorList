@@ -3,17 +3,17 @@ package sponsorlist
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
 import com.google.gson.Gson
-import sponsorlist.appstuff.DBHandeler
-import sponsorlist.appstuff.FileStructure
+import sponsorlist.appstuff.IDBHandler
 import sponsorlist.appstuff.Personality
 import sponsorlist.appstuff.Platform
+import sponsorlist.appstuff.S3Handler
 import sponsorlist.appstuff.SponsorItem
 
 
-val handler: DBHandeler = DBHandeler()
+val handler: IDBHandler = S3Handler()
 val gson: Gson = Gson()
 
-public class SponsorItemHandler() : RequestHandler<SponsorItem?, String> {
+class SponsorItemHandler() : RequestHandler<SponsorItem, String> {
     override fun handleRequest(
         p0: SponsorItem?,
         p1: Context?
@@ -21,17 +21,17 @@ public class SponsorItemHandler() : RequestHandler<SponsorItem?, String> {
         p1?.logger?.log("SponsorItemHandler called :: ${p1.awsRequestId}")
         if (p0 == null) {
             p1?.logger?.log("SponsorItemHandler :: Get List")
-            return gson.toJson(handler.sponsorsList)
+            return gson.toJson(handler.getSponsorList())
         } else {
             p1?.logger?.log("SponsorItemHandler :: Add ${p0}")
-            handler.addSponsorLink(p0)
+            handler.addSponsorItem(p0)
             return "Success"
         }
     }
 
 }
 
-public class PlatformHandler() : RequestHandler<Platform?, String> {
+class PlatformHandler() : RequestHandler<Platform?, String> {
     override fun handleRequest(
         p0: Platform?,
         p1: Context?
@@ -39,7 +39,7 @@ public class PlatformHandler() : RequestHandler<Platform?, String> {
         p1?.logger?.log("PlatformHandler called :: ${p1.awsRequestId}")
         if (p0 == null) {
             p1?.logger?.log("PlatformHandler :: Get List")
-            return gson.toJson(handler.sponsorsList)
+            return gson.toJson(handler.getPlatformList())
         } else {
             p1?.logger?.log("PlatformHandler :: Add ${p0}")
             handler.addPlatform(p0)
@@ -49,7 +49,7 @@ public class PlatformHandler() : RequestHandler<Platform?, String> {
 
 }
 
-public class PersonalityHandler() : RequestHandler<Personality?, String> {
+class PersonalityHandler() : RequestHandler<Personality?, String> {
     override fun handleRequest(
         p0: Personality?,
         p1: Context?
@@ -57,7 +57,7 @@ public class PersonalityHandler() : RequestHandler<Personality?, String> {
         p1?.logger?.log("PersonalityHandler called :: ${p1.awsRequestId}")
         if (p0 == null) {
             p1?.logger?.log("PersonalityHandler :: Get List")
-            return gson.toJson(handler.sponsorsList)
+            return gson.toJson(handler.getPersonalityList())
         } else {
             p1?.logger?.log("PersonalityHandler :: Add ${p0}")
             handler.addPersonality(p0)
@@ -83,4 +83,4 @@ public class PersonalityHandler() : RequestHandler<Personality?, String> {
 //            return "Success"
 //        }
 //    }
-}
+//}

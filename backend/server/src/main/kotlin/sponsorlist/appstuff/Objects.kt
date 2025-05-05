@@ -1,36 +1,35 @@
 package sponsorlist.appstuff
 
-import io.ktor.http.*
-import java.util.Date
+import java.util.*
 
 
 data class SponsorItem(
-    val personality:String="", val sponsor:String="", val platform:String="", var code:String="", var post:String="",
-    val start: Date = Date(), val added:Date = Date(), var lastChecked:Date? = null, var verified:Date? = null,
+    var personality:String="", var sponsor:String="", var platform:String="", var code:String="", var post:String="",
+    var start: Date = Date(), var added:Date = Date(), var lastChecked:Date? = null, var verified:Date? = null,
     var valid:Boolean=false, var scam:Boolean=false
-);
+)
 
-data class SponsorItemList(val list: List<SponsorItem>)
+data class SponsorItemList(var list: List<SponsorItem>)
 
 data class Platform(
-    val name: String = "",
-    val url: String? = null,
-    val logoUrl: String = "",
-    val description: String = ""
+    var name: String = "",
+    var url: String? = null,
+    var logoUrl: String = "",
+    var description: String = ""
 )
 
-data class PlatformList(val list: List<SponsorItem>)
+data class PlatformList(var list: List<SponsorItem>)
 
 data class Personality(
-    val name: String = "",
-    val platforms: Map<Platform, String> = emptyMap(),
-    val description: String? = null
+    var name: String = "",
+    var platforms: Map<Platform, String> = emptyMap(),
+    var description: String? = null
 )
 
-data class PersonalityList(val list: List<Personality>)
+data class PersonalityList(var list: List<Personality>)
 
 //data class FileStructure(
-//    val sponsorItems: List<SponsorItem> = emptyList<SponsorItem>(),
-//    val platforms: List<Platform> = emptyList<Platform>(),
+//    var sponsorItems: List<SponsorItem> = emptyList<SponsorItem>(),
+//    var platforms: List<Platform> = emptyList<Platform>(),
 //    val personalities: List<Personality> = emptyList<Personality>()
 //)

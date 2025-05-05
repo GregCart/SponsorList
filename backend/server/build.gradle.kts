@@ -9,7 +9,7 @@ plugins {
 val handlers = listOf("SponsorItemHandler", "PlatformHandler", "PersonalityHandler", "FileStructureHandler")
 
 group = "tabletoprug"
-version = "0.5.1"
+version = "0.5.2"
 
 application {
     mainClass = "io.ktor.server.netty.EngineMain"
@@ -53,8 +53,8 @@ dependencies {
 ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_21)
-        localImageName.set("tabletoprug/sponsorlist-server")
-        imageTag.set("0.1.0")
+        localImageName.set("${group}/sponsorlist-server")
+        imageTag.set(version as String)
         portMappings.set(listOf(
             io.ktor.plugin.features.DockerPortMapping(
                 9000,

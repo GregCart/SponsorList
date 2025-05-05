@@ -7,12 +7,12 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import sponsorlist.appstuff.DBHandeler
+import sponsorlist.appstuff.S3Handler
 import sponsorlist.appstuff.SponsorItem
 import java.io.File
 
 
-val handler = DBHandeler();
+val handler = S3Handler();
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -21,27 +21,27 @@ fun Application.configureRouting() {
         }
     }
     install(AutoHeadResponse)
-    routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-        get("/getItemList") {
-            call.respond(handler.sponsorsList);
-        }
-        post("/addToList/{type}") {
-            val type = call.pathParameters["type"]
-            call.respond(type?.let { handler.addToList(it, call.receive<SponsorItem>()) }!!)
-        }
-        get("/{personality}") {
-            var personalityName = call.pathParameters["personality"];
-            call.respond(personalityName?.let { handler.personalityBySponsorName(it) }!!)
-        }
-        get("/download") {
-            call.respond(handler.getFile());
-        }
-        post("/upload") {
-            val file = call.receive<File>()
-            call.respond(handler.addFromFile(file))
-        }
-    }
+//    routing {
+//        get("/") {
+//            call.respondText("Hello World!")
+//        }
+//        get("/getItemList") {
+//            call.respond(handler.sponsorsList);
+//        }
+//        post("/addToList/{type}") {
+//            val type = call.pathParameters["type"]
+//            call.respond(type?.let { handler.addToList(it, call.receive<SponsorItem>()) }!!)
+//        }
+//        get("/{personality}") {
+//            var personalityName = call.pathParameters["personality"];
+//            call.respond(personalityName?.let { handler.personalityBySponsorName(it) }!!)
+//        }
+//        get("/download") {
+//            call.respond(handler.getFile());
+//        }
+//        post("/upload") {
+//            val file = call.receive<File>()
+//            call.respond(handler.addFromFile(file))
+//        }
+//    }
 }
