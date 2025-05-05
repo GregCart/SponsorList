@@ -127,7 +127,7 @@ class S3Handler: Closeable, IDBHandler {
     override fun addSponsorItem(item: SponsorItem): String {
         var date = SimpleDateFormat(DATE_FORMAT).format(Date());
 
-        return writeToFile("${date}/${item.sponsor}-${item.personality}.json", item)
+        return writeToFile("${date}/${item.sponsor}-${item.personality}_${item.added}.json", item)
     }
 
     override fun removeSponsorItem(
