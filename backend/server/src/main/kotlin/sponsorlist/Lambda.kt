@@ -13,7 +13,7 @@ import sponsorlist.appstuff.SponsorItem
 val handler: IDBHandler = S3Handler()
 val gson: Gson = Gson()
 
-class SponsorItemHandler() : RequestHandler<SponsorItem, String> {
+class SponsorItemHandler() : RequestHandler<SponsorItem?, String> {
     override fun handleRequest(
         p0: SponsorItem?,
         p1: Context?
