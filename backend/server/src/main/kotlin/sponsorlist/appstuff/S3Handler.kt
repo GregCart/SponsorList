@@ -61,7 +61,7 @@ class S3Handler: Closeable, IDBHandler {
 
         var dayShift = 0;
         while (resp.contents().size < 100 && dayShift < 30) {
-            var fileName = "${SimpleDateFormat(DATE_FORMAT).format(today.subtractDays(dayShift))}/"
+            var fileName = "${SimpleDateFormat(DATE_FORMAT).format(today.subtractDays(dayShift++))}/"
             listReq = ListObjectsRequest.builder()
                 .prefix("$BASE_PATH/$fileName")
                 .bucket(BUCKET_NAME).build();
@@ -99,26 +99,26 @@ class S3Handler: Closeable, IDBHandler {
     }
 
     override fun getSponsorList(
-        personality: String,
-        sponsor: String,
-        platform: String,
-        code: String,
-        post: String,
-        start: Date,
-        added: Date,
+        personality: String?,
+        sponsor: String?,
+        platform: String?,
+        code: String?,
+        post: String?,
+        start: Date?,
+        added: Date?,
         verified: Date?,
         valid: Boolean?,
         scam: Boolean?
     ): List<SponsorItem> {
 
         return getFiles()
-            .filter { it -> if (personality != "") it.personality.like(personality) else true }
-            .filter { it -> if (sponsor != "") it.sponsor.like(sponsor) else true }
-            .filter { it -> if (platform != "") it.platform.like(platform) else true }
-            .filter { it -> if (code != "") it.code.like(code, 2) else true }
-            .filter { it -> if (post != "") it.post.like(post, 10) else true }
-            .filter { it -> if (start != Date()) it.start.equals(start) else true }
-            .filter { it -> if (added != Date()) it.added.equals(added) else true }
+            .filter { it -> if (personality != null) it.personality.like(personality) else true }
+            .filter { it -> if (sponsor != null) it.sponsor.like(sponsor) else true }
+            .filter { it -> if (platform != null) it.platform.like(platform) else true }
+            .filter { it -> if (code != null) it.code.like(code, 2) else true }
+            .filter { it -> if (post != null) it.post.like(post, 10) else true }
+            .filter { it -> if (start != null) it.start.equals(start) else true }
+            .filter { it -> if (added != null) it.added.equals(added) else true }
             .filter { it -> if (verified != null) it.verified?.equals(verified) ?: false else true }
             .filter { it -> if (valid != null) it.valid else true }
             .filter { it -> if (scam != null) it.scam else true }

@@ -18,13 +18,13 @@ interface IDBHandler {
         const val PLATFORMS = "platforms";
     }
 
-    public fun getSponsorList(personality: String ="",
-                              sponsor: String = "",
-                              platform:String="",
-                              code:String="",
-                              post:String="",
-                              start: Date = Date(),
-                              added:Date = Date(),
+    public fun getSponsorList(personality: String? =null,
+                              sponsor: String? = null,
+                              platform:String? =null,
+                              code:String?=null,
+                              post:String?=null,
+                              start: Date? = null,
+                              added:Date? = null,
                               verified:Date? = null,
                               valid:Boolean?=null,
                               scam:Boolean?=null): List<SponsorItem>;

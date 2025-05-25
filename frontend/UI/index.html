@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="./libs/aws-sdk-2.1692.0.js"></script>
         <script src="./scripts/api.js"></script>
+        <script src="./scripts/awsapi.js"></script>
         <script src="index.js"></script>
         <script>
             $(window).on('load', function(){
@@ -42,9 +43,9 @@
                     alert(resp.json())
                 });
 
-
-                if (healthCheck()) {
-                    console.log("Connected to backend")
+                let resp = getSponsorsList();
+                if (resp) {
+                    console.log("Connected to backend: " + resp)
                 } else {
                     console.error("Could not connect to backend")
                     return;
