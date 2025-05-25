@@ -1,11 +1,11 @@
-const backendUrl = process.env.BACKEND_URL;
+// const backendUrl = process.env.BACKEND_URL;
+const backendUrl = "https://gq7p4jvz3wgq6neyn4toygnzni0zmswh.lambda-url.us-east-1.on.aws/";
 
 
 async function healthCheck() {
     let check = false;
 
     await fetch(backendUrl + "/").then((resp) => {
-
         if (resp.text() == "Hello World!") {
             check = true;
         }

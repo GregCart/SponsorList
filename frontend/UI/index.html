@@ -7,7 +7,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="./libs/aws-sdk-2.1692.0.js"></script>
-        <script src="./scripts/api.js"></script>
+        <!-- <script src="./scripts/api.js"></script> -->
         <script src="./scripts/awsapi.js"></script>
         <script src="index.js"></script>
         <script>
@@ -43,9 +43,9 @@
                     alert(resp.json())
                 });
 
-                let resp = getSponsorsList();
-                if (resp) {
-                    console.log("Connected to backend: " + resp)
+
+                if (healthCheck()) {
+                    console.log("Connected to backend")
                 } else {
                     console.error("Could not connect to backend")
                     return;
@@ -70,6 +70,7 @@
     </head>
     <body class="dark-theme || light-theme">
         <noscript>Please enable JS, I promise it's necessary for this page</noscript>
+        <h3>This Website is currently under construction, and may not function properly for the time being!</h3>
         <h1>Sponsors List</h1>
         <br/>
         <button class="btn-toggle">Toggle Dark Mode</button>
