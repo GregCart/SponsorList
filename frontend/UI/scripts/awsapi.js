@@ -1,4 +1,4 @@
-const LAMBDA_URL = "https://gq7p4jvz3wgq6neyn4toygnzni0zmswh.lambda-url.us-east-1.on.aws/"
+const LAMBDA_URL = "https://yy67udxfjqcui2f65hr7xvt44m0cikjn.lambda-url.us-east-2.on.aws/"
 
 
 async function healthCheck() {
