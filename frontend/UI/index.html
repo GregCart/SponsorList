@@ -11,7 +11,16 @@
         <script src="./scripts/awsapi.js"></script>
         <script src="index.js"></script>
         <script>
+            const s3 = new S3Service();
+            
             $(window).on('load', function(){
+                AWS.config.update({
+                    region: 'us-east-2',
+                    credentials: new AWS.CognitoIdemtityCredentials({
+                        IdentityPoolId: 'us-east-2:db121d1d-877a-4070-a497-e4f9ccf609b5'
+                    })
+                });
+
                 const btn = document.querySelector('.btn-toggle');
 
                 btn.addEventListener('click', function() {

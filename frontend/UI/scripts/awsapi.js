@@ -13,8 +13,32 @@ async function healthCheck() {
     });
 }
 
-async function getSponsorList() {
-    let resp = await fetch(LAMBDA_URL);
+class S3Service {
+    constructor() {
+        this.s3 = new AWS.S3({ apiVersion: '2006-03-01'})
+        this.bucket = "";
+    }
 
-    return resp;
+    getObject(bucket = this.bucket, key) {
+        return new Promise((resolve, reject) => {
+            this.s3.getObject({ Bucket: bucket, Key: key }, (err, data) => {
+                if (err) return reject(err);
+
+                const text = new TextDecoder().decode(data.body);
+                resolve(text);
+            });
+        });
+    }
+
+    getObject(bucket, key, body, contentType = 'application/json') {
+        return new Promise((resolve, reject) => {
+            this.s3/putObject(
+                { Bucket: bucket, Key: key, Body: body, ContentType: contentType },
+                (err, data) => {
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            )
+        })
+    }
 }
