@@ -30,9 +30,9 @@ class S3Service {
         });
     }
 
-    getObject(bucket, key, body, contentType = 'application/json') {
+    putObject(bucket = this.bucket, key, body, contentType = 'application/json') {
         return new Promise((resolve, reject) => {
-            this.s3/putObject(
+            this.s3.putObject(
                 { Bucket: bucket, Key: key, Body: body, ContentType: contentType },
                 (err, data) => {
                     if (err) return reject(err);
