@@ -63,7 +63,7 @@
                 const form = document.getElementById("AddSponsorBody");
 
                 // console.log(form.children[3].children[1].children[0].children[6].children[0])
-                form[6].value = new Date()
+                form[6].value = new Date().toISOString();
                 form[6].innerHTML = form[6].value
 
                 form.addEventListener('submit', function(event) {
@@ -72,7 +72,7 @@
 
                     // Collect form data into a plain object
                     const data = {};
-                    form.serializeArray().forEach(item => {
+                    form.getElementsByTagName("input").forEach(item => {
                         data[item.name] = item.value;
                     });
 
@@ -95,6 +95,7 @@
     <body class="dark-theme || light-theme">
         <noscript>Please enable JS, I promise it's necessary for this page</noscript>
         <h3>This Website is currently under construction, and may not function properly for the time being!</h3>
+        <br />
         <h1>Sponsors List</h1>
         <br/>
         <button class="btn-toggle">Toggle Dark Mode</button>
@@ -105,27 +106,27 @@
                     <div>
                         <span>
                             <label for="personality">Personality</label>
-                            <input type="text" id="personality" required />
+                            <input type="text" id="personality" name="personality" required />
                         </span>
                         <span>
                             <label for="sponsor">Sponsor Name</label>
-                            <input type="text" id="sponsor" required />
+                            <input type="text" id="sponsor" name="sponsor" required />
                         </span>
                         <span>
                             <label for="platform">Debut'd Platform</label>
-                            <input type="text" id="platform" required />
+                            <input type="text" id="platform" name="platform" required />
                         </span>
                         <span>
                             <label for="code">Link/Code</label>
-                            <input type="text" id="code" required />
+                            <input type="text" id="code" name="code" required />
                         </span>
                         <span>
                             <label for="post">Origional Post</label>
-                            <input type="url" id="post" required />
+                            <input type="url" id="post" name="post" required />
                         </span>
                         <span>
                             <label for="start">Sponsor Date Start</label>
-                            <input type="date" id="start" />
+                            <input type="date" id="start" name="start" />
                         </span>
                     </div>
                 </div>
@@ -134,25 +135,25 @@
                         <span></span>
                         <span>
                             <label for="added">Date Added</label>
-                            <input type="datetime" id="added" disabled />
+                            <input type="datetime" id="added" name="added" disabled />
                         </span>
                         <span>
                             <label for="checked">Last Checked</label>
-                            <input type="datetime" id="checked" disabled />
+                            <input type="datetime" id="checked" name="checked" disabled />
                         </span>
                         <span>
                             <span>
                                 <label for="valid">Valid?</label>
-                                <input type="checkbox" id="valid" disabled />
+                                <input type="checkbox" id="valid" name="valid" disabled />
                             </span>
                             <span>
                                 <label for="scam">Scam?</label>
-                                <input type="checkbox" id="scam" disabled />
+                                <input type="checkbox" id="scam" name="scam" disabled />
                             </span>
                         </span>
                         <span>
                             <label for="verified">Last Verified</label>
-                            <input type="datetime" id="verified" disabled />
+                            <input type="datetime" id="verified" name="verified" disabled />
                         </span>
                         <span></span>
                     </div>
