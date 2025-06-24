@@ -6,21 +6,53 @@
         <link rel="stylesheet" href="./index.css" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="./libs/aws-sdk-2.1692.0.js"></script>
+        <!-- <script src="./libs/aws-sdk-2.1692.0.js"></script> -->
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-3.js"></script>
         <!-- <script src="./scripts/api.js"></script> -->
         <script src="./scripts/awsapi.js"></script>
         <script src="index.js"></script>
         <script>
             const s3 = new S3Service();
 
-            $(window).on('load', function(){
-                AWS.config.update({
-                    region: 'us-east-2',
-                    credentials: new AWS.CognitoIdemtityCredentials({
-                        IdentityPoolId: 'us-east-2:db121d1d-877a-4070-a497-e4f9ccf609b5'
-                    })
-                });
+            function formatData(objList) {
+                let body = document.getElementById("tableBody");
+                body.innerHTML = ""; // Clear previous rows
 
+                console.log(objList);
+
+                objList.forEach(element => {
+                    s3.getObject(element).then(data => {
+                        const sponsor = JSON.parse(data);
+                        let row = document.createElement("tr");
+                        [
+                            sponsor.personality,
+                            sponsor.sponsor,
+                            sponsor.platform,
+                            sponsor.code,
+                            sponsor.post,
+                            sponsor.start,
+                            sponsor.added,
+                            sponsor.checked,
+                            sponsor.valid,
+                            sponsor.scam,
+                            sponsor.verified
+                        ].forEach(val => {
+                            let td = document.createElement("td");
+                            td.textContent = val !== undefined ? val : "";
+                            row.appendChild(td);
+                        });
+                        body.appendChild(row);
+                    });
+                });
+            }
+
+            function populate() {
+                let allCurrentData = s3.listObjects().then(data => formatData(data));
+            }
+
+            
+
+            $(window).on('load', function(){
                 const btn = document.querySelector('.btn-toggle');
 
                 btn.addEventListener('click', function() {
@@ -38,42 +70,25 @@
                 // Then toggle (add/remove) the .dark-theme class to the body
                     event.preventDefault()
 
-                    const data = form.elements;
-                    let reqData = {};
+                    // Collect form data into a plain object
+                    const data = {};
+                    form.serializeArray().forEach(item => {
+                        data[item.name] = item.value;
+                    });
 
-                    Object.keys(data).forEach((key) => {
-                        if (isNaN(key)) {
-                            reqData[key] = data[key].value;
+                    console.log(data)
+
+                    s3.putObject(data).then(data => {
+                        console.log(data.json())
+                        if (data.status === 200) {
+                            alert("Sponsor Added Successfully!");
+                            form.reset();
+                            populate();
+                        } else {
+                            alert("Error adding sponsor: " + data.statusText);
                         }
-                    })
-
-                    console.log(reqData)
-                    let resp = s3.getObject(reqData);
-                    alert(resp.json())
+                    });
                 });
-
-
-                if (healthCheck()) {
-                    console.log("Connected to backend")
-                } else {
-                    console.error("Could not connect to backend")
-                    return;
-                }
-
-                // let testData = ["Ur Mom", "Deez Nuts", "L33TH4X0R", "2/24/25-11:15_AM_CST", "Never", "true", "Never"];
-                let body = document.getElementById("tableBody");
-                
-                let row = document.createElement("tr");
-                let data = getSponsorList()
-                console.log(data)
-                data.forEach(element => {
-                    let data = document.createElement("td");
-                    data.textContent = element;
-                    row.appendChild(data);
-                });
-                
-
-                body.appendChild(row);
             });
         </script>
     </head>
