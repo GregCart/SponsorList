@@ -32,7 +32,10 @@ class S3Service {
     listObjects() {
         return new Promise((resolve, reject) => {
             this.s3.listObjects({ Delimiter: "/" }, function(err, data) {
-                if (err) return reject("There was an error listing your albums: " + err.message);
+                if (err)  {
+                        console.log("There was an error listing your albums: " + err.message);
+                        return reject("There was an error listing your albums: " + err.message)
+                    };
 
                 var itemList = data.CommonPrefixes.map(function (commonPrefix) {
                     var prefix = commonPrefix.Prefix;
@@ -47,7 +50,10 @@ class S3Service {
     getObject(name) {
         return new Promise((resolve, reject) => {
             this.s3.getObject({ Bucket: bucket, Key: name }, (err, data) => {
-                if (err) return reject(err);
+                if (err)  {
+                    console.log(err);
+                    return reject(err)
+                };
 
                 const text = new TextDecoder().decode(data.body);
                 resolve(text);
@@ -61,9 +67,12 @@ class S3Service {
 
         return new Promise((resolve, reject) => {
             this.s3.putObject(
-                { Key: key, Body: body },
+                { Key: key, Body: JSON.stringify(body), ContentType: "application/json"},
                 (err, data) => {
-                    if (err) return reject(err);
+                    if (err)  {
+                        console.log(err);
+                        return reject(err)
+                    };
                     resolve(true);
                 }
             )
