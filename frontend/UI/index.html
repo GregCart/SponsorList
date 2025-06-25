@@ -63,30 +63,31 @@
                 const form = document.getElementById("AddSponsorBody");
 
                 // console.log(form.children[3].children[1].children[0].children[6].children[0])
-                form[6].value = new Date().toISOString();
+                document.getElementById("added").value = new Date().toISOString();
                 form[6].innerHTML = form[6].value
 
                 form.addEventListener('submit', function(event) {
-                // Then toggle (add/remove) the .dark-theme class to the body
-                    event.preventDefault()
+                    event.preventDefault();
 
-                    // Collect form data into a plain object
+                    // Collect form data into a plain object, including readonly fields and checkboxes
                     const data = {};
-                    form.getElementsByTagName("input").forEach(item => {
-                        data[item.name] = item.value;
+                    const inputs = form.querySelectorAll('input');
+                    inputs.forEach(item => {
+                        if (item.type === 'checkbox') {
+                            data[item.name] = item.checked;
+                        } else if (item.type !== 'submit') {
+                            data[item.name] = item.value;
+                        }
                     });
 
-                    console.log(data)
+                    console.log(data);
 
-                    s3.putObject(data).then(data => {
-                        console.log(data.json())
-                        if (data.status === 200) {
-                            alert("Sponsor Added Successfully!");
-                            form.reset();
-                            populate();
-                        } else {
-                            alert("Error adding sponsor: " + data.statusText);
-                        }
+                    s3.putObject(data).then(() => {
+                        alert("Sponsor Added Successfully!");
+                        form.reset();
+                        populate();
+                    }).catch(err => {
+                        alert("Error adding sponsor: " + err.message);
                     });
                 });
             });
@@ -135,25 +136,25 @@
                         <span></span>
                         <span>
                             <label for="added">Date Added</label>
-                            <input type="datetime" id="added" name="added" disabled />
+                            <input type="datetime" id="added" name="added" readonly />
                         </span>
                         <span>
                             <label for="checked">Last Checked</label>
-                            <input type="datetime" id="checked" name="checked" disabled />
+                            <input type="datetime" id="checked" name="checked" readonly />
                         </span>
                         <span>
                             <span>
                                 <label for="valid">Valid?</label>
-                                <input type="checkbox" id="valid" name="valid" disabled />
+                                <input type="checkbox" id="valid" name="valid" readonly />
                             </span>
                             <span>
                                 <label for="scam">Scam?</label>
-                                <input type="checkbox" id="scam" name="scam" disabled />
+                                <input type="checkbox" id="scam" name="scam" readonly />
                             </span>
                         </span>
                         <span>
                             <label for="verified">Last Verified</label>
-                            <input type="datetime" id="verified" name="verified" disabled />
+                            <input type="datetime" id="verified" name="verified" readonly />
                         </span>
                         <span></span>
                     </div>
