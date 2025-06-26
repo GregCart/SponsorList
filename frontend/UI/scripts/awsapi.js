@@ -63,7 +63,8 @@ class S3Service {
 
     putObject(body) {
         let user = body["user"] ? body["user"] : "testUser";
-        var key = encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user + "/");
+        let date = body["added"] ? body["added"] : new Date().toISOString().split("T")[0];
+        var key = encodeURIComponent(date) + "/" + encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
 
         return new Promise((resolve, reject) => {
             this.s3.putObject(
