@@ -24,18 +24,17 @@ class S3Service {
         this.s3 = new AWS.S3({
             apiVersion: '2006-03-01',
             params: { 
-                Bucket: bucketName 
+                Bucket: bucketName
             },
         });
     }
 
     listObjects() {
         return new Promise((resolve, reject) => {
-            this.s3.listObjects({ Delimiter: "/" }, function(err, data) {
+            this.s3.listObjects({ Key: "/data/", Delimiter: "/" }, function(err, data) {
                 if (err)  {
-                        console.log("There was an error listing your albums: " + err.message);
-                        return reject("There was an error listing your albums: " + err.message)
-                    };
+                    return reject("There was an error listing your albums: " + err.message)
+                };
 
                 var itemList = data.CommonPrefixes.map(function (commonPrefix) {
                     var prefix = commonPrefix.Prefix;
@@ -49,9 +48,8 @@ class S3Service {
 
     getObject(name) {
         return new Promise((resolve, reject) => {
-            this.s3.getObject({ Bucket: bucket, Key: name }, (err, data) => {
+            this.s3.getObject({ Key: "/data/" + name }, (err, data) => {
                 if (err)  {
-                    console.log(err);
                     return reject(err)
                 };
 
@@ -71,7 +69,6 @@ class S3Service {
                 { Key: key, Body: JSON.stringify(body), ContentType: "application/json"},
                 (err, data) => {
                     if (err)  {
-                        console.log(err);
                         return reject(err)
                     };
                     resolve(true);
@@ -81,7 +78,7 @@ class S3Service {
     }
 
     deleteObject(name) {
-        s3.deleteObject({ Key: name }, function (err, data) {
+        s3.deleteObject({ Key: "/data/" + name }, function (err, data) {
             if (err) {
                 console.log("There was an error deleting your photo: ", err.message);
                 return;
