@@ -106,7 +106,14 @@
                         if (item.type === 'checkbox') {
                             data[item.name] = item.checked;
                         } else if (item.type !== 'submit') {
-                            data[item.name] = item.value;
+                            switch (item.name) {
+                                case "added": 
+                                    data[item.name] = new Date();
+                                    break;
+                                default:
+                                    data[item.name] = item.value;
+                                    break;
+                            }
                         }
                     });
 
