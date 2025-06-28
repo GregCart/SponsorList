@@ -37,8 +37,11 @@
                             sponsor.personality,
                             sponsor.sponsor,
                             sponsor.platform,
-                            sponsor.code,
-                            sponsor.post,
+                            // Conditional: if sponsor.code looks like a URL, make it clickable
+                            sponsor.code && /^(https?:\/\/)/i.test(sponsor.code)
+                                ? (() => { let a = document.createElement('a'); a.href = sponsor.code; a.textContent = sponsor.code; a.target = '_blank'; return a; })()
+                                : sponsor.code,
+                            sponsor.post = (() => { let a = document.createElement('a'); a.href = sponsor.post; a.textContent = sponsor.post; a.target = '_blank'; return a; })(),
                             sponsor.start ? new Date(sponsor.start).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                             sponsor.added ? new Date(sponsor.added).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                             sponsor.checked ? new Date(sponsor.checked).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
@@ -47,7 +50,11 @@
                             sponsor.verified ? new Date(sponsor.verified).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ""
                         ].forEach(val => {
                             let td = document.createElement("td");
-                            td.textContent = val !== undefined ? val : "ERR";
+                            if (val instanceof HTMLElement) {
+                                td.appendChild(val);
+                            } else {
+                                td.textContent = val !== undefined ? val : "ERR";
+                            }
                             row.appendChild(td);
                         });
                         body.appendChild(row);
