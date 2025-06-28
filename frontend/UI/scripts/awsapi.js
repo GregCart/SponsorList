@@ -66,7 +66,11 @@ class S3Service {
                     return reject(err)
                 };
 
-                const text = new TextDecoder().decode(data.body);
+                // console.log("data: ");
+                // console.log(data);
+                const text = new TextDecoder('utf-8').decode(data.Body);
+                // console.log("text: ");
+                // console.log(text);
                 resolve(text);
             });
         });
