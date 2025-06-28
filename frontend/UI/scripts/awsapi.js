@@ -1,5 +1,6 @@
 // const LAMBDA_URL = "https://yy67udxfjqcui2f65hr7xvt44m0cikjn.lambda-url.us-east-2.on.aws/"
 const bucketName = "sponsorlist.org";
+const folderName = "data/";
 
 
 // async function healthCheck() {
@@ -29,18 +30,30 @@ class S3Service {
         });
     }
 
-    listObjects() {
+    listObjects(folder = folderName, delim = "/") {
         return new Promise((resolve, reject) => {
-            this.s3.listObjects({ Key: "/data/", Delimiter: "/" }, function(err, data) {
+            this.s3.listObjectsV2({ Delimiter: delim, Prefix: folder }, function(err, data) {
                 if (err)  {
-                    return reject("There was an error listing your albums: " + err.message)
+                    return reject("There was an error listing data: " + err.message)
                 };
 
-                var itemList = data.CommonPrefixes.map(function (commonPrefix) {
-                    var prefix = commonPrefix.Prefix;
-                    var item = decodeURIComponent(prefix.replace("/", ""));
-                    return item;
-                });
+                // console.log("data: ");
+                // console.log(data);
+                var itemList = data.Contents.length == 0 ? 
+                    data.CommonPrefixes.map(function (commonPrefix) {
+                        // console.log("commonPrefix: ");
+                        // console.log(commonPrefix);
+                        var prefix = commonPrefix.Prefix;
+                        // var item = decodeURIComponent(prefix.replace("/", ""));
+                        var item = decodeURIComponent(prefix);
+                        return item;
+                    }) :
+                    data.Contents.map(function (content) {
+                        // console.log("content: ");
+                        // console.log(content);
+                        var item = decodeURIComponent(content.Key);
+                        return item;
+                    });
                 resolve(itemList);
             });
         });
@@ -48,7 +61,7 @@ class S3Service {
 
     getObject(name) {
         return new Promise((resolve, reject) => {
-            this.s3.getObject({ Key: "/data/" + name }, (err, data) => {
+            this.s3.getObject({ Key: name }, (err, data) => {
                 if (err)  {
                     return reject(err)
                 };
@@ -61,12 +74,13 @@ class S3Service {
 
     putObject(body) {
         let user = body["user"] ? body["user"] : "testUser";
-        let date = body["added"] ? body["added"] : new Date().toISOString().split("T")[0];
-        var key = encodeURIComponent(date) + "/" + encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
+        // let date = body["added"] ? body["added"] : new Date();
+        var key = encodeURIComponent(new Date(body["added"]).toISOString().split("T")[0]) + "/" + 
+                    encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
 
         return new Promise((resolve, reject) => {
             this.s3.putObject(
-                { Key: key, Body: JSON.stringify(body), ContentType: "application/json"},
+                { Key: folderName + key, Body: JSON.stringify(body), ContentType: "application/json"},
                 (err, data) => {
                     if (err)  {
                         return reject(err)
@@ -78,7 +92,7 @@ class S3Service {
     }
 
     deleteObject(name) {
-        s3.deleteObject({ Key: "/data/" + name }, function (err, data) {
+        s3.deleteObject({ Key: folderName + name }, function (err, data) {
             if (err) {
                 console.log("There was an error deleting your photo: ", err.message);
                 return;

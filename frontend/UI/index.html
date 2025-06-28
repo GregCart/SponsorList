@@ -18,9 +18,12 @@
                 let body = document.getElementById("tableBody");
                 body.innerHTML = ""; // Clear previous rows
 
-                console.log(objList);
+                console.log(typeof objList[0], objList);
 
-                objList.forEach(element => {
+                let  objs = objList.filter(element => {
+                    return element.includes("data");
+                })
+                objs.forEach(element => {
                     s3.getObject(element).then(data => {
                         const sponsor = JSON.parse(data);
                         let row = document.createElement("tr");
@@ -30,15 +33,15 @@
                             sponsor.platform,
                             sponsor.code,
                             sponsor.post,
-                            sponsor.start,
-                            sponsor.added,
-                            sponsor.checked,
+                            new Date(sponsor.start),
+                            new Date(sponsor.added),
+                            new Date(sponsor.checked),
                             sponsor.valid,
                             sponsor.scam,
-                            sponsor.verified
+                            new Date(sponsor.verified)
                         ].forEach(val => {
                             let td = document.createElement("td");
-                            td.textContent = val !== undefined ? val : "";
+                            td.textContent = val !== undefined ? val : "ERR";
                             row.appendChild(td);
                         });
                         body.appendChild(row);
@@ -47,7 +50,21 @@
             }
 
             function populate() {
-                let allCurrentData = s3.listObjects().then(data => formatData(data));
+                s3.listObjects().then(data => {
+                    console.log("Data: ");
+                    console.log(data);
+                    data.forEach(datum => {
+                        console.log("Datum:");
+                        console.log(datum);
+                        s3.listObjects(datum, "").then(datumData => {
+                            console.log("Datum Data: ");
+                            console.log(datumData);
+                            formatData(datumData);
+                        }).catch(err => {
+                            console.error("Error fetching object:", err);
+                        });
+                    });
+                });
             }
 
             
@@ -63,7 +80,7 @@
                 const form = document.getElementById("AddSponsorBody");
 
                 // console.log(form.children[3].children[1].children[0].children[6].children[0])
-                document.getElementById("added").value = new Date().toISOString();
+                document.getElementById("added").value = new Date();
                 form[6].innerHTML = form[6].value
 
                 form.addEventListener('submit', function(event) {
