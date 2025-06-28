@@ -14,7 +14,7 @@ This is a simple web application for tracking and displaying sponsorships for on
 - jQuery (for DOM manipulation)
 
 ## Credits
-- Developed by: [Your Name Here]
+- Developed by: TableTopRug
 - Assisted by: GitHub Copilot, powered by OpenAI and Microsoft
 
 ---

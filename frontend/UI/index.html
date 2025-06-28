@@ -24,11 +24,11 @@
                     return element.includes("data");
                 })
                 objs.forEach(element => {
-                    console.log("Element: ");
-                    console.log(element);
+                    // console.log("Element: ");
+                    // console.log(element);
                     s3.getObject(element).then(data => {
-                        console.log("Data: ");
-                        console.log(data);
+                        // console.log("Data: ");
+                        // console.log(data);
                         const sponsor = JSON.parse(data);
                         let row = document.createElement("tr");
                         [
@@ -37,12 +37,12 @@
                             sponsor.platform,
                             sponsor.code,
                             sponsor.post,
-                            new Date(sponsor.start),
-                            new Date(sponsor.added),
-                            new Date(sponsor.checked),
+                            sponsor.start ? new Date(sponsor.start).toLocaleString() : "",
+                            sponsor.added ? new Date(sponsor.added).toLocaleString() : "",
+                            sponsor.checked ? new Date(sponsor.checked).toLocaleString() : "",
                             sponsor.valid,
                             sponsor.scam,
-                            new Date(sponsor.verified)
+                            sponsor.verified ? new Date(sponsor.verified).toLocaleString() : ""
                         ].forEach(val => {
                             let td = document.createElement("td");
                             td.textContent = val !== undefined ? val : "ERR";
@@ -100,6 +100,20 @@
                             data[item.name] = item.value;
                         }
                     });
+
+                    // Convert all date fields to UTC ISO strings before upload
+                    if (data['start']) {
+                        data['start'] = new Date(data['start']).toISOString();
+                    }
+                    if (data['added']) {
+                        data['added'] = new Date(data['added']).toISOString();
+                    }
+                    if (data['checked']) {
+                        data['checked'] = new Date(data['checked']).toISOString();
+                    }
+                    if (data['verified']) {
+                        data['verified'] = new Date(data['verified']).toISOString();
+                    }
 
                     console.log(data);
 
