@@ -12,81 +12,19 @@
         <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1692.0.js"></script>
         <!-- <script src="./scripts/api.js"></script> -->
         <script src="./scripts/awsapi.js"></script>
-        <!-- <script src="index.js"></script> -->
+        <script src="./scripts/auth.js"></script>
+        <script src="./scripts/index.js"></script>
         <script>
-            const s3 = new S3Service();
-            var isLoggedIn = false;
-
-            function formatData(objList) {
-                let body = document.getElementById("tableBody");
-                body.innerHTML = ""; // Clear previous rows
-
-                // console.log(typeof objList[0], objList);
-
-                let  objs = objList.filter(element => {
-                    return element.includes("data");
-                })
-                objs.forEach(element => {
-                    // console.log("Element: ");
-                    // console.log(element);
-                    s3.getObject(element).then(data => {
-                        // console.log("Data: ");
-                        // console.log(data);
-                        const sponsor = JSON.parse(data);
-                        let row = document.createElement("tr");
-                        [
-                            sponsor.personality,
-                            sponsor.sponsor,
-                            sponsor.platform,
-                            // Conditional: if sponsor.code looks like a URL, make it clickable
-                            sponsor.code && /^(https?:\/\/)/i.test(sponsor.code)
-                                ? (() => { let a = document.createElement('a'); a.href = sponsor.code; a.textContent = sponsor.code; a.target = '_blank'; return a; })()
-                                : sponsor.code,
-                            sponsor.post = (() => { let a = document.createElement('a'); a.href = sponsor.post; a.textContent = sponsor.post; a.target = '_blank'; return a; })(),
-                            sponsor.start ? new Date(sponsor.start).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
-                            sponsor.added ? new Date(sponsor.added).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
-                            sponsor.checked ? new Date(sponsor.checked).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
-                            sponsor.valid,
-                            sponsor.scam,
-                            sponsor.verified ? new Date(sponsor.verified).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ""
-                        ].forEach(val => {
-                            let td = document.createElement("td");
-                            if (val instanceof HTMLElement) {
-                                td.appendChild(val);
-                            } else {
-                                td.textContent = val !== undefined ? val : "ERR";
-                            }
-                            row.appendChild(td);
-                        });
-                        body.appendChild(row);
-                    });
-                });
-            }
-
-            function populate() {
-                s3.listObjects().then(data => {
-                    // console.log("Data: ");
-                    // console.log(data);
-                    data.forEach(datum => {
-                        // console.log("Datum:");
-                        // console.log(datum);
-                        s3.listObjects(datum, "").then(datumData => {
-                            // console.log("Datum Data: ");
-                            // console.log(datumData);
-                            formatData(datumData);
-                        }).catch(err => {
-                            console.error("Error fetching object:", err);
-                        });
-                    });
-                });
-            }
-
             $(window).on('load', function(){
                 const btn = document.querySelector('.btn-toggle');
 
                 btn.addEventListener('click', function() {
                 // Then toggle (add/remove) the .dark-theme class to the body
                     document.body.classList.toggle('dark-theme');  
+                });
+
+                document.getElementById("login").addEventListener("click", async () => {
+                    await auth.signIn();
                 });
 
                 populate();
@@ -98,7 +36,7 @@
         <h3>This Website is currently under construction, and may not function properly for the time being!</h3>
         <br />
         <div class="header-flex">
-            <div id="login" class="auth" title="Login or Register"><a href="#">Login/Register</a></div>
+            <div class="auth" title="Login or Register"><button id="login">Login/Register</a></div>
             <div class="header-center">
                 <h1>Sponsors List</h1>
                 <h3>A list of sponsors for people who forget</h3>

@@ -2,19 +2,6 @@
 const bucketName = "sponsorlist.org";
 const folderName = "data/";
 
-
-// async function healthCheck() {
-//     let check = false;
-
-//     await fetch(LAMBDA_URL).then((resp) => {
-//         if (resp.text() == "Hello World!") {
-//             check = true;
-//         }
-//     }).finally(() =>{
-//         return check;
-//     });
-// }
-
 class S3Service {
     constructor() {
         AWS.config.region = "us-east-2"; // Region
