@@ -25,14 +25,15 @@ class CognitoAuthenticator extends Authenticator {
             response_type: "code",
             scope: "phone openid email"
         };
-        this.userManager = new UserManager({
-            ...cognitoAuthConfig,
+        this.userManager = new Oidc.UserManager({
+            ...this.cognitoAuthConfig,
         });
     }
 
     async signIn() {
         try {
-            this.user = await this.signinCallback();
+            // this.user = await this.signinCallback();
+            this.userManager.signinRedirectCallback();
         } catch (error) {
             console.error("Sign-in failed:", error);
         }
@@ -47,10 +48,10 @@ class CognitoAuthenticator extends Authenticator {
         }
     }
 
-    async signinCallback() {
-        const logedinuri = this.domain + "/home.html";
-        window.location.href = `${this.cognitoDomain}/login/continue?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(logedinuri)}&response_type=code&scope=email+openid+phone`;
-    }
+    // async signinCallback() {
+    //     // const logedinuri = this.domain + "/home.html";
+    //     // window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(logedinuri)}&response_type=code&scope=email+openid+phone`;
+    // }
 
     async signOutRedirect () {
         const logoutUri = this.domain + "/index.html";
