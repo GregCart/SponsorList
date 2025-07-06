@@ -1,5 +1,5 @@
 const s3 = new S3Service();
-const auth = new Authenticator();
+const auth = new CognitoAuthenticator();
 
 function formatData(objList) {
     let body = document.getElementById("tableBody");

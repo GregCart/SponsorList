@@ -20,7 +20,7 @@ class CognitoAuthenticator extends Authenticator {
         this.clientId = "1kbhhpu2busr0v2al4otgitvdc";
         this.cognitoAuthConfig = {
             authority: "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_dpwlMzpdR",
-            client_id: clientId,
+            client_id: this.clientId,
             redirect_uri: "https://sponsorlist.org",
             response_type: "code",
             scope: "phone openid email"
