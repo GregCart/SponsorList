@@ -22,11 +22,7 @@
                     document.body.classList.toggle('dark-theme');  
                 });
 
-                document.getElementById("login").addEventListener("click", async () => {
-                    await auth.signIn();
-                });
-
-                populate();
+                init();
             });
         </script>
     </head>
@@ -35,7 +31,7 @@
         <h3>This Website is currently under construction, and may not function properly for the time being!</h3>
         <br />
         <div class="header-flex">
-            <div class="auth" title="Login or Register"><button id="login">Login/Register</a></div>
+            <div class="auth"></div>
             <div class="header-center">
                 <h1>Sponsors List</h1>
                 <h3>A list of sponsors for people who forget</h3>
@@ -44,6 +40,7 @@
         <br/>
         <button class="btn-toggle">Toggle Dark Mode</button>
         <br />
+        <div id="AddSponsorBox" disabled>
         <br />
         <div id="SponsorTable">
             <table class="centered">
