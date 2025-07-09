@@ -1,7 +1,7 @@
 class Authenticator {
     constructor() {
         this.user = null;
-        this.domain = "https://www.sponmsorlist.org";
+        this.domain = "www.sponmsorlist.org";
     }
 
     isAuthenticated() {
@@ -52,10 +52,10 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async signInRedirect () {
-        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&login_uri=${encodeURIComponent(this.domain)}&response_type=code&scope=email+openid+phone`;
+        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&login_uri=${encodeURIComponent("https://" + this.domain)}&response_type=code&scope=email+openid+phone`;
     };
 
     async signOutRedirect () {
-        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.domain)}`;
+        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent("http://" + this.domain)}`;
     };
 }
