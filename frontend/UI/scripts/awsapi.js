@@ -1,5 +1,5 @@
 // const LAMBDA_URL = "https://yy67udxfjqcui2f65hr7xvt44m0cikjn.lambda-url.us-east-2.on.aws/"
-const bucketName = "sponsorlist.org";
+const bucketName = "www.sponsorlist.org";
 const folderName = "data/";
 
 
