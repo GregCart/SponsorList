@@ -1,7 +1,7 @@
 class Authenticator {
     constructor() {
         this.user = null;
-        this.domain = "www.sponmsorlist.org";
+        this.domain = "sponsorlist.org";
     }
 
     isAuthenticated() {
@@ -21,7 +21,7 @@ class CognitoAuthenticator extends Authenticator {
         this.cognitoAuthConfig = {
             authority: "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_XUUoStp7N",
             client_id: "1kbhhpu2busr0v2al4otgitvdc",
-            redirect_uri: "https://sponsorlist.org/home.html",
+            redirect_uri: "https://www.sponsorlist.org/",
             response_type: "code",
             scope: "email openid phone",
         };
@@ -52,10 +52,10 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async signInRedirect () {
-        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&login_uri=${encodeURIComponent("https://" + this.domain)}&response_type=code&scope=email+openid+phone`;
+        window.location.href = `https://auth.${this.domain}/login?client_id=${this.clientId}&login_uri=${encodeURIComponent("https://www." + this.domain)}&response_type=code&scope=email+openid+phone`;
     };
 
     async signOutRedirect () {
-        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent("http://" + this.domain)}`;
+        window.location.href = `https://auth.${this.domain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent("https://www." + this.domain)}`;
     };
 }
