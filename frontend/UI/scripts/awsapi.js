@@ -18,7 +18,7 @@ const folderName = "data/";
 class S3Service {
     constructor() {
         AWS.config.region = "us-east-2"; // Region
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: "us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a",
         });
 
