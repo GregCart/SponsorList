@@ -191,14 +191,14 @@ function testAuth() {
         console.log("User is authenticated:", auth.user);
         document.querySelector(".auth").innerHTML = logoutButton;
         document.getElementById("logout").addEventListener("click", () => {
-            auth.signOutRedirect();
+            auth.signOut();
         });
         return true
     } else {
         console.log("User is not authenticated");
         document.querySelector(".auth").innerHTML = loginButton;
         document.getElementById("login").addEventListener("click", () => {
-            auth.signInRedirect();
+            auth.signIn();
         });
         return false;
     }
