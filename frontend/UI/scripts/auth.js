@@ -48,16 +48,25 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async isAuthenticated() {
-        await this.userManager.signinCallback().then(function(user) {
-                this.user = user;
-                console.log("Sign-in successful:", user);
-            });
-        }
+        return this.userManager.getUser().then(user => {    
+            return user !== null;
+        }).catch(error => {
+            console.error("Error checking authentication:", error);
+            return false;
+        });
+    }
 
     async signIn() {
         try {
-            // this.user = await this.signinCallback();
-            await this.userManager.signinRedirect();
+            await this.signInRedirect().then(function(user) {
+                this.user = user;
+                console.log("Sign-in successful:", user);
+            });
+            console.log(this.userManager.signinCallback());
+            await this.userManager.signinCallback().then(function(user) {
+                this.user = user;
+                console.log("Sign-in successful:", user);
+            });
         } catch (error) {
             console.error("Sign-in failed:", error);
         }
@@ -73,10 +82,10 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async signInRedirect () {
-        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&response_type=code&scope=email+openid+phone&login_uri=${encodeURIComponent(this.webDomain)}`;
+        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
     async signOutRedirect () {
-        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.webDomain)}`;
+        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.webDomain)}`;
     };
 }

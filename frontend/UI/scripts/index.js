@@ -187,7 +187,7 @@ function setupForm() {
 }
 
 function testAuth() {
-    if (auth.isAuthenticated()) {
+    if (auth.isAuthenticated() == true) {
         console.log("User is authenticated:", auth.user);
         document.querySelector(".auth").innerHTML = logoutButton;
         document.getElementById("logout").addEventListener("click", () => {
