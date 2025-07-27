@@ -31,20 +31,6 @@ class CognitoAuthenticator extends Authenticator {
         this.userManager = new Oidc.UserManager({
             ...this.cognitoAuthConfig,
         });
-        // this.userManager.
-        // AWS.config.update({
-        //     region: 'us-east-2',
-        //     credentials: new AWS.CognitoIdentityCredentials({
-        //         AccountId: '138351723362', // your AWS account ID
-        //         RoleArn: 'arn:aws:iam::138351723362:role/service-role/sponsorlist.org_v1',
-        //         IdentityPoolId: 'us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a'
-        //     })
-        // });
-        // AWS.config.credentials.get(function(err) {
-        //     if (!err) {
-        //         var id = AWS.config.credentials.identityId;
-        //     }
-        // });
     }
 
     async isAuthenticated() {
@@ -58,15 +44,14 @@ class CognitoAuthenticator extends Authenticator {
 
     async signIn() {
         try {
-            await this.signInRedirect().then(function(user) {
-                this.user = user;
-                console.log("Sign-in successful:", user);
-            });
-            console.log(this.userManager.signinCallback());
-            await this.userManager.signinCallback().then(function(user) {
-                this.user = user;
-                console.log("Sign-in successful:", user);
-            });
+            await this.userManager.signinRedirect();
+
+            if (document.referrer.includes("auth.sponsorlist.org") || document.referrer.includes("cognito")) {
+                auth.userManager.signinCallback().then(function (user) {
+                    this.user=user;
+                    console.log("Sign-in successful:", user);
+                });
+            }
         } catch (error) {
             console.error("Sign-in failed:", error);
         }

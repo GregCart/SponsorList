@@ -205,6 +205,13 @@ function testAuth() {
 }
 
 function init() {
+    if (document.referrer.includes("auth.sponsorlist.org") || document.referrer.includes("cognito")) {
+        auth.userManager.signinCallback().then(function (user) {
+            this.user=user;
+            console.log("Sign-in successful:", user);
+        });
+    }
+    
     if(testAuth()) {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
         document.getElementById("AddSponsorBox").innerHTML = form;   
