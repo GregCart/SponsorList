@@ -21,6 +21,7 @@ class CognitoAuthenticator extends Authenticator {
         this.cognitoAuthority = "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_qgJUb4SOQ";
         this.cognitoDomain = "https://us-east-2qgjub4soq.auth.us-east-2.amazoncognito.com";
         this.clientId = "3rmliqfj8asqdjit5siitb4jrr";
+        this.idPoolId = "us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a";
         this.cognitoAuthConfig = {
             authority: this.cognitoAuthority,
             client_id: this.clientId,
@@ -34,8 +35,23 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async isAuthenticated() {
-        return this.userManager.getUser().then(user => {    
-            return user !== null;
+        return this.userManager.getCurrentUser().then(user => {
+            auth.user = user;    
+            user.getSession(function(err, result) {
+                if (result) {
+                    console.log('You are now logged in.');
+                    let login = 'cognito-idp.us-east-2.amazonaws.com/' + this.idPoolId;
+                    let creds = new AWS.CognitoIdentityCredentials({
+                        IdentityPoolId: this.idPoolId,
+                        Logins: {
+                            [login]: result.getIdToken().getJwtToken()
+                        }
+                    });
+                    // creds.params.Logins.put(login, result.getIdToken().getJwtToken());
+                    // Add the User's Id Token to the Cognito credentials login map.
+                    AWS.config.credentials = creds;
+                }
+            });
         }).catch(error => {
             console.error("Error checking authentication:", error);
             return false;
@@ -45,13 +61,6 @@ class CognitoAuthenticator extends Authenticator {
     async signIn() {
         try {
             await this.userManager.signinRedirect();
-
-            if (document.referrer.includes("auth.sponsorlist.org") || document.referrer.includes("cognito")) {
-                auth.userManager.signinCallback().then(function (user) {
-                    this.user=user;
-                    console.log("Sign-in successful:", user);
-                });
-            }
         } catch (error) {
             console.error("Sign-in failed:", error);
         }

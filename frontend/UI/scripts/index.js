@@ -205,13 +205,18 @@ function testAuth() {
 }
 
 function init() {
-    if (document.referrer.includes("auth.sponsorlist.org") || document.referrer.includes("cognito")) {
+    if (document.URL.includes("code") || document.URL.includes("state")) {
+        let state = document.URL.split("state=")[1].split("&")[0];
+        console.log("State: ", state);
+        let code = document.URL.split("code=")[1].split("&")[0];
+        console.log("Code: ", code);
         auth.userManager.signinCallback().then(function (user) {
-            this.user=user;
+            auth.user=user;
+            auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
         });
     }
-    
+
     if(testAuth()) {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
         document.getElementById("AddSponsorBox").innerHTML = form;   
