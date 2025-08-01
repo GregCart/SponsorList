@@ -186,8 +186,8 @@ function setupForm() {
     });
 }
 
-function testAuth() {
-    if (auth.isAuthenticated() == true) {
+async function testAuth() {
+    if (await auth.isAuthenticated() == true) {
         console.log("User is authenticated:", auth.user);
         document.querySelector(".auth").innerHTML = logoutButton;
         document.getElementById("logout").addEventListener("click", () => {

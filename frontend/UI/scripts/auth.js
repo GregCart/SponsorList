@@ -35,7 +35,7 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async isAuthenticated() {
-        return this.userManager.getCurrentUser().then(user => {
+        return await this.userManager.getCurrentUser().then(user => {
             auth.user = user;    
             user.getSession(function(err, result) {
                 if (result) {
@@ -50,6 +50,7 @@ class CognitoAuthenticator extends Authenticator {
                     // creds.params.Logins.put(login, result.getIdToken().getJwtToken());
                     // Add the User's Id Token to the Cognito credentials login map.
                     AWS.config.credentials = creds;
+                    return true;
                 }
             });
         }).catch(error => {
