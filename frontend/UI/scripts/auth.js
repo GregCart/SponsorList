@@ -35,7 +35,7 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async isAuthenticated() {
-        return await this.userManager.getCurrentUser().then(user => {
+        return await this.userManager.getUser().then(user => {
             auth.user = user;    
             user.getSession(function(err, result) {
                 if (result) {
