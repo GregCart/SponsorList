@@ -210,11 +210,7 @@ function init() {
         console.log("State: ", state);
         let code = document.URL.split("code=")[1].split("&")[0];
         console.log("Code: ", code);
-        auth.userManager.signinCallback().then(function (user) {
-            auth.user=user;
-            auth.userManager.storeUser(user);
-            console.log("Sign-in successful:", user);
-        });
+        auth.signInCallback(code, state);
     }
 
     if(testAuth()) {

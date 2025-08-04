@@ -36,23 +36,11 @@ class CognitoAuthenticator extends Authenticator {
 
     async isAuthenticated() {
         return await this.userManager.getUser().then(user => {
-            auth.user = user;    
-            user.getSession(function(err, result) {
-                if (result) {
-                    console.log('You are now logged in.');
-                    let login = 'cognito-idp.us-east-2.amazonaws.com/' + this.idPoolId;
-                    let creds = new AWS.CognitoIdentityCredentials({
-                        IdentityPoolId: this.idPoolId,
-                        Logins: {
-                            [login]: result.getIdToken().getJwtToken()
-                        }
-                    });
-                    // creds.params.Logins.put(login, result.getIdToken().getJwtToken());
-                    // Add the User's Id Token to the Cognito credentials login map.
-                    AWS.config.credentials = creds;
-                    return true;
-                }
-            });
+            if(user == null || user.expired) {
+                return false
+            }
+
+            return new Date(user.expires_at * 1000) > new Date();
         }).catch(error => {
             console.error("Error checking authentication:", error);
             return false;
@@ -83,4 +71,24 @@ class CognitoAuthenticator extends Authenticator {
     async signOutRedirect () {
         window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.webDomain)}`;
     };
+
+    async signInCallback(code, state) {
+        this.userManager.signinCallback().then(function (user) {
+            this.user = user;
+            this.userManager.storeUser(user);
+            console.log("Sign-in successful:", user);
+            let creds = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId: this.idPoolId,
+            });
+            
+            creds.params.Logins = creds.params.Logins || {};
+            creds.params.Logins["www.amazon.com"] = user.id_token;
+            
+            // Expire credentials to refresh them on the next request
+            creds.expired = true;
+
+            AWS.config.credentials = creds;
+            console.log("Cognito credentials set:", creds);
+        });
+    }
 }
