@@ -213,9 +213,9 @@ function init() {
         auth.signInCallback(code, state);
     }
 
-    if(testAuth()) {
+    if(testAuth() == true) {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
-        document.getElementById("AddSponsorBox").innerHTML = form;   
+        document.getElementById("AddSponsorBox").appendChild(form);   
         setupForm();
     }
     populate();
