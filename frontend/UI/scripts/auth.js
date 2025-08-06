@@ -74,11 +74,11 @@ class CognitoAuthenticator extends Authenticator {
 
     async signInCallback(code, state) {
         await this.userManager.signinCallback().then(function (user) {
-            this.user = user;
-            this.userManager.storeUser(user);
+            auth.user = user;
+            auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
             let creds = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: this.idPoolId,
+                IdentityPoolId: auth.idPoolId,
             });
             
             creds.params.Logins = creds.params.Logins || {};
@@ -91,7 +91,9 @@ class CognitoAuthenticator extends Authenticator {
             console.log("Cognito credentials set:", creds);
         }).catch(function (err) {
             console.error("Sign-in callback failed:", err)
-            window.location.href = this.webDomain;
+            if (err.message.includes("state")) {
+                window.location.href = auth.webDomain;
+            }
         });
     }
 }
