@@ -204,7 +204,7 @@ async function testAuth() {
     }
 }
 
-function init() {
+async function init() {
     if (document.URL.includes("code") || document.URL.includes("state")) {
         let state = document.URL.split("state=")[1].split("&")[0];
         console.log("State: ", state);
@@ -213,7 +213,7 @@ function init() {
         auth.signInCallback(code, state);
     }
 
-    if(testAuth() == true) {
+    if(await testAuth() == true) {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
         document.getElementById("AddSponsorBox").appendChild(form);   
         setupForm();
