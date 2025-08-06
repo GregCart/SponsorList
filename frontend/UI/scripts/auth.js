@@ -73,7 +73,7 @@ class CognitoAuthenticator extends Authenticator {
     };
 
     async signInCallback(code, state) {
-        this.userManager.signinCallback().then(function (user) {
+        await this.userManager.signinCallback().then(function (user) {
             this.user = user;
             this.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
