@@ -215,7 +215,7 @@ async function init() {
 
     if(await testAuth() == true) {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
-        document.getElementById("AddSponsorBox").appendChild(form);   
+        document.getElementById("AddSponsorBox").innerHTML = form;   
         setupForm();
     }
     populate();
