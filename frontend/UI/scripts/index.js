@@ -210,7 +210,7 @@ async function init() {
         console.log("State: ", state);
         let code = document.URL.split("code=")[1].split("&")[0];
         console.log("Code: ", code);
-        auth.signInCallback(code, state);
+        await auth.signInCallback(code, state);
     }
 
     if(await testAuth() == true) {
