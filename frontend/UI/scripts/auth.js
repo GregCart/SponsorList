@@ -89,6 +89,9 @@ class CognitoAuthenticator extends Authenticator {
 
             AWS.config.credentials = creds;
             console.log("Cognito credentials set:", creds);
+        }).catch(function (err) {
+            console.error("Sign-in callback failed:", err)
+            window.location.href = this.webDomain;
         });
     }
 }
