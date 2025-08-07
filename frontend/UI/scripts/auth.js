@@ -57,7 +57,7 @@ class CognitoAuthenticator extends Authenticator {
 
     async signOut() {
         try {
-            await this.signoutRedirect();
+            await this.userManager.signoutRedirect();
             this.user = null;
         } catch (error) {
             console.error("Sign-out failed:", error);
