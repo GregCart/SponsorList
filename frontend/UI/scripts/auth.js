@@ -40,7 +40,7 @@ class CognitoAuthenticator extends Authenticator {
                 return false
             }
 
-            return new Date(user.expires_at * 1000) > new Date();
+            return new Date(user.expires_at) > new Date();
         }).catch(error => {
             console.error("Error checking authentication:", error);
             return false;
