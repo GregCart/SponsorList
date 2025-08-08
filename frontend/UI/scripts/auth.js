@@ -88,7 +88,8 @@ class CognitoAuthenticator extends Authenticator {
             
             creds.params.Logins = creds.params.Logins || {};
             // creds.params.Logins["www.amazon.com"] = user.id_token;
-            creds.params.Logins[auth.cognitoAuthority] = code;
+            // creds.params.Logins[auth.cognitoAuthority] = code;
+            creds.params.Logins["www.amazon.com"] = user.id_token;
             
             // Expire credentials to refresh them on the next request
             creds.expired = true;
