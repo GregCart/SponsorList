@@ -18,13 +18,13 @@ class Authenticator {
 class CognitoAuthenticator extends Authenticator {
     constructor() {
         super();
-        this.cognitoAuthority = "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_qgJUb4SOQ";
-        this.cognitoDomain = "https://us-east-2qgjub4soq.auth.us-east-2.amazoncognito.com";
+        this.cognitoAuthority = "cognito-idp.us-east-2.amazonaws.com/us-east-2_qgJUb4SOQ";
+        this.cognitoDomain = "us-east-2qgjub4soq.auth.us-east-2.amazoncognito.com";
         this.clientId = "3rmliqfj8asqdjit5siitb4jrr";
         this.idPoolId = "us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a";
         this.creds = {};
         this.cognitoAuthConfig = {
-            authority: this.cognitoAuthority,
+            authority: "https://" + this.cognitoAuthority,
             client_id: this.clientId,
             redirect_uri: this.webDomain,
             response_type: "code",
@@ -66,11 +66,11 @@ class CognitoAuthenticator extends Authenticator {
     }
 
     async signInRedirect () {
-        window.location.href = `${this.cognitoDomain}/login?client_id=${this.clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${encodeURIComponent(this.webDomain)}`;
+        window.location.href = `https://${this.cognitoDomain}/login?client_id=${this.clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
     async signOutRedirect () {
-        window.location.href = `${this.cognitoDomain}/logout?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.webDomain)}`;
+        window.location.href = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
     async signInCallback(code, state) {
