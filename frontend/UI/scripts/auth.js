@@ -79,12 +79,11 @@ class CognitoAuthenticator extends Authenticator {
             auth.user = user;
             auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
-            let creds = fromCognitoIdentityPool({
-                clientConfig: {
-                    region: "us-east-2"
-                },
+            let creds = new AWS.CognitoIdentityCredentials({
                 IdentityPoolId: auth.idPoolId,
                 Logins: {}
+            }, {
+                region: "us-east-2"
             });
             
             creds.params.Logins = creds.params.Logins || {};
