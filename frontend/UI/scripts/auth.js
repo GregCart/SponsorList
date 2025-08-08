@@ -79,7 +79,7 @@ class CognitoAuthenticator extends Authenticator {
             auth.user = user;
             auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
-            let creds = new AWS.CognitoIdentityCredentials({
+            let creds = AWS.config.credentials || new AWS.CognitoIdentityCredentials({
                 IdentityPoolId: auth.idPoolId,
                 Logins: {}
             }, {
@@ -93,8 +93,8 @@ class CognitoAuthenticator extends Authenticator {
             // Expire credentials to refresh them on the next request
             creds.expired = true;
 
-            auth.creds = creds;
-            console.log("Cognito credentials set:", creds);
+            AWS.config.credentials = creds;
+            console.log("Global credentials set:", creds);
         }).catch(function (err) {
             console.error("Sign-in callback failed:", err)
             if (err.message.includes("state")) {

@@ -1,5 +1,5 @@
-const service = new S3Service();
 const auth = new CognitoAuthenticator();
+const service = new S3Service();
 
 const loginButton = `<button id="login" title="Login or Register">Login/Register</a>`;
 const logoutButton = `<button id="logout" title="Logout">Logout</a>`;
@@ -211,8 +211,8 @@ async function init() {
         let code = document.URL.split("code=")[1].split("&")[0];
         console.log("Code: ", code);
         await auth.signInCallback(code, state);
-        service.s3.credentials = auth.creds;
-        console.log("S3 Credentials: ", service.s3.credentials);
+        // service.s3.config.credentials = auth.creds;
+        // console.log("S3 Credentials: ", service.s3.credentials);
     }
 
     if(await testAuth() == true) {
