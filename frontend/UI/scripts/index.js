@@ -1,4 +1,4 @@
-const s3 = new S3Service();
+const service = new S3Service();
 const auth = new CognitoAuthenticator();
 
 const loginButton = `<button id="login" title="Login or Register">Login/Register</a>`;
@@ -80,7 +80,7 @@ function formatData(objList) {
     objs.forEach(element => {
         // console.log("Element: ");
         // console.log(element);
-        s3.getObject(element).then(data => {
+        service.getObject(element).then(data => {
             // console.log("Data: ");
             // console.log(data);
             const sponsor = JSON.parse(data);
@@ -115,13 +115,13 @@ function formatData(objList) {
 }
 
 function populate() {
-    s3.listObjects().then(data => {
+    service.listObjects().then(data => {
         // console.log("Data: ");
         // console.log(data);
         data.forEach(datum => {
             // console.log("Datum:");
             // console.log(datum);
-            s3.listObjects(datum, "").then(datumData => {
+            service.listObjects(datum, "").then(datumData => {
                 // console.log("Datum Data: ");
                 // console.log(datumData);
                 formatData(datumData);
@@ -176,7 +176,7 @@ function setupForm() {
 
         console.log(data);
 
-        s3.putObject(data).then(() => {
+        service.putObject(data).then(() => {
             alert("Sponsor Added Successfully!");
             form.reset();
             populate();
@@ -211,8 +211,8 @@ async function init() {
         let code = document.URL.split("code=")[1].split("&")[0];
         console.log("Code: ", code);
         await auth.signInCallback(code, state);
-        s3.credentials = auth.creds;
-        console.log("S3 Credentials: ", s3.credentials);
+        service.s3.credentials = auth.creds;
+        console.log("S3 Credentials: ", service.s3.credentials);
     }
 
     if(await testAuth() == true) {

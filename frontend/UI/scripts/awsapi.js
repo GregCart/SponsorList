@@ -64,7 +64,7 @@ class S3Service {
     }
 
     putObject(body) {
-        let user = body["user"] ? body["user"] : "testUser";
+        let user = auth.user.profile["cognito:username"] ? auth.user.profile["cognito:username"] : "testUser";
         // let date = body["added"] ? body["added"] : new Date();
         var key = encodeURIComponent(new Date(body["added"]).toISOString().split("T")[0]) + "/" + 
                     encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
@@ -83,7 +83,7 @@ class S3Service {
     }
 
     deleteObject(name) {
-        s3.deleteObject({ Key: folderName + name }, function (err, data) {
+        this.s3.deleteObject({ Key: folderName + name }, function (err, data) {
             if (err) {
                 console.log("There was an error deleting your photo: ", err.message);
                 return;
