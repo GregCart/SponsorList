@@ -211,6 +211,8 @@ async function init() {
         let code = document.URL.split("code=")[1].split("&")[0];
         console.log("Code: ", code);
         await auth.signInCallback(code, state);
+        s3.credentials = auth.creds;
+        console.log("S3 Credentials: ", s3.credentials);
     }
 
     if(await testAuth() == true) {

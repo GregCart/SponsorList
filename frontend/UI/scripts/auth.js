@@ -22,6 +22,7 @@ class CognitoAuthenticator extends Authenticator {
         this.cognitoDomain = "https://us-east-2qgjub4soq.auth.us-east-2.amazoncognito.com";
         this.clientId = "3rmliqfj8asqdjit5siitb4jrr";
         this.idPoolId = "us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a";
+        this.creds = {};
         this.cognitoAuthConfig = {
             authority: this.cognitoAuthority,
             client_id: this.clientId,
@@ -78,17 +79,22 @@ class CognitoAuthenticator extends Authenticator {
             auth.user = user;
             auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
-            let creds = new AWS.CognitoIdentityCredentials({
+            let creds = fromCognitoIdentityPool({
+                clientConfig: {
+                    region: "us-east-2"
+                },
                 IdentityPoolId: auth.idPoolId,
+                Logins: {}
             });
             
             creds.params.Logins = creds.params.Logins || {};
-            creds.params.Logins["www.amazon.com"] = user.id_token;
+            // creds.params.Logins["www.amazon.com"] = user.id_token;
+            creds.params.Logins[auth.cognitoAuthority] = code;
             
             // Expire credentials to refresh them on the next request
             creds.expired = true;
 
-            AWS.config.credentials = creds;
+            auth.creds = creds;
             console.log("Cognito credentials set:", creds);
         }).catch(function (err) {
             console.error("Sign-in callback failed:", err)
