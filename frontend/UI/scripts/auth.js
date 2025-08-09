@@ -75,7 +75,7 @@ class CognitoAuthenticator extends Authenticator {
 
     async signInCallback(code, state) {
         await this.userManager.signinCallback().then(function (user) {
-            user.state = state;
+            // user.state = state;0
             auth.user = user;
             auth.userManager.storeUser(user);
             console.log("Sign-in successful:", user);
@@ -89,7 +89,8 @@ class CognitoAuthenticator extends Authenticator {
             creds.params.Logins = creds.params.Logins || {};
             // creds.params.Logins["www.amazon.com"] = user.id_token;
             // creds.params.Logins[auth.cognitoAuthority] = code;
-            creds.params.Logins["www.amazon.com"] = user.id_token;
+            // creds.params.Logins["www.amazon.com"] = user.access_token;
+            creds.params.Logins[auth.cognitoAuthority] = user.id_token;
             
             // Expire credentials to refresh them on the next request
             creds.expired = true;
