@@ -90,7 +90,8 @@ class CognitoAuthenticator extends Authenticator {
             // creds.params.Logins["www.amazon.com"] = user.id_token;
             // creds.params.Logins[auth.cognitoAuthority] = code;
             // creds.params.Logins["www.amazon.com"] = user.access_token;
-            creds.params.Logins[auth.cognitoAuthority] = user.id_token;
+            // creds.params.Logins[auth.cognitoAuthority] = user.id_token;
+            creds.params.Logins[auth.cognitoAuthority] = user.getIdToken().getJwtToken();   //according to the doocumentation, this should work
             
             // Expire credentials to refresh them on the next request
             creds.expired = true;
