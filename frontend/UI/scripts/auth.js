@@ -73,7 +73,7 @@ class CognitoAuthenticator extends Authenticator {
         window.location.href = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
-    async signInCallback(code, state) {
+    async signInCallback(code, state, onLoginSuccess) {
         await this.userManager.signinCallback().then(function (user) {
             // user.state = state;0
             auth.user = user;
@@ -98,9 +98,20 @@ class CognitoAuthenticator extends Authenticator {
 
             AWS.config.credentials = creds;
             console.log("Global credentials set:", creds);
+            
+            AWS.config.credentials.get(function(){
+
+                // Credentials will be available when this function is called.
+                var accessKeyId = AWS.config.credentials.accessKeyId;
+                var secretAccessKey = AWS.config.credentials.secretAccessKey;
+                var sessionToken = AWS.config.credentials.sessionToken;
+            });
         }).catch(function (err) {
             console.error("Sign-in callback failed:", err)
             if (err.message.includes("state")) {
+                auth.user = null;
+                auth.userManager.removeUser();
+                console.error("State mismatch, user not authenticated.");
                 window.location.href = auth.webDomain;
             }
         });
