@@ -70,6 +70,7 @@ class CognitoAuthenticator extends Authenticator {
     };
 
     async signOutRedirect () {
+        let location = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.webDomain)}`
         window.location.href = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
