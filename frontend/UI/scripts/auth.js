@@ -70,7 +70,7 @@ class CognitoAuthenticator extends Authenticator {
     };
 
     async signOutRedirect () {
-        window.location.href = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.webDomain)}`;
+        window.location.href = `https://${this.cognitoDomain}/logout?client_id=${this.clientId}&logout_uri=${encodeURIComponent(this.webDomain)}`;
     };
 
     async signInCallback(code, state) {
@@ -90,8 +90,8 @@ class CognitoAuthenticator extends Authenticator {
             // creds.params.Logins["www.amazon.com"] = user.id_token;
             // creds.params.Logins[auth.cognitoAuthority] = code;
             // creds.params.Logins["www.amazon.com"] = user.access_token;
-            // creds.params.Logins[auth.cognitoAuthority] = user.id_token;
-            creds.params.Logins[auth.cognitoAuthority] = user.getIdToken().getJwtToken();   //according to the doocumentation, this should work
+            // creds.params.Logins[auth.cognitoAuthority] = user.getIdToken().getJwtToken();   //according to the doocumentation, this should work (doesnt work)
+            creds.params.Logins[auth.cognitoAuthority] = user.id_token;   //according to cognito documentation, this should work
             
             // Expire credentials to refresh them on the next request
             creds.expired = true;
