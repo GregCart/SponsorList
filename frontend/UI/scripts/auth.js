@@ -100,7 +100,12 @@ class CognitoAuthenticator extends Authenticator {
             AWS.config.credentials = creds;
             console.log("Global credentials set:", creds);
             
-            AWS.config.credentials.get(function(){
+            AWS.config.credentials.getId(creds, function(err, data){
+                if (err) {
+                    console.error("Error getting credentials ID:", err);
+                    return;
+                }
+                console.log("Credentials ID:", data);
 
                 // Credentials will be available when this function is called.
                 var accessKeyId = AWS.config.credentials.accessKeyId;
