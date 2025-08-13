@@ -2,23 +2,10 @@
 const bucketName = "www.sponsorlist.org";
 const folderName = "data/";
 
-
-// async function healthCheck() {
-//     let check = false;
-
-//     await fetch(LAMBDA_URL).then((resp) => {
-//         if (resp.text() == "Hello World!") {
-//             check = true;
-//         }
-//     }).finally(() =>{
-//         return check;
-//     });
-// }
-
 class S3Service {
     constructor() {
         AWS.config.region = "us-east-2"; // Region
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        AWS.config.credentials = AWS.config.credentials || new AWS.CognitoIdentityCredentials({
             IdentityPoolId: "us-east-2:fadf8d53-931f-459e-906b-d56f3890a66a",
         });
 
@@ -77,7 +64,7 @@ class S3Service {
     }
 
     putObject(body) {
-        let user = body["user"] ? body["user"] : "testUser";
+        let user = auth.user.profile["cognito:username"] ? auth.user.profile["cognito:username"] : "testUser";
         // let date = body["added"] ? body["added"] : new Date();
         var key = encodeURIComponent(new Date(body["added"]).toISOString().split("T")[0]) + "/" + 
                     encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
@@ -96,7 +83,7 @@ class S3Service {
     }
 
     deleteObject(name) {
-        s3.deleteObject({ Key: folderName + name }, function (err, data) {
+        this.s3.deleteObject({ Key: folderName + name }, function (err, data) {
             if (err) {
                 console.log("There was an error deleting your photo: ", err.message);
                 return;

@@ -35,17 +35,17 @@ async function addSponsorItem(data) {
         body: JSON.stringify(data)
     }).then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
-      })
-      .then(responseData => {
+    })
+    .then(responseData => {
         console.log('Success:', responseData);
         resp = responseData;
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
-      });
+    });
 
       return resp;
 }
