@@ -98,7 +98,7 @@ function formatData(objList) {
                     ? (() => { let a = document.createElement('a'); a.href = sponsor.link; a.textContent = sponsor.link; a.target = '_blank'; return a; })()
                     : sponsor.link,
                 sponsor.post = (() => { let a = document.createElement('a'); a.href = sponsor.post; a.textContent = sponsor.post; a.target = '_blank'; return a; })(),
-                sponsor.start ? new Date(sponsor.start).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
+                sponsor.start ? new Date(sponsor.start).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit'}) : "",
                 sponsor.added ? new Date(sponsor.added).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                 sponsor.checked ? new Date(sponsor.checked).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                 sponsor.valid,
