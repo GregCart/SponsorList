@@ -25,7 +25,7 @@ const form  = `
                 </span>
                 <span>
                     <label for="link">Code</label>
-                    <input type="link" id="link" name="link"/>
+                    <input type="url" id="link" name="link" pattern="[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"/>
                 </span>
                 <span>
                     <label for="code">Code</label>
@@ -33,7 +33,7 @@ const form  = `
                 </span>
                 <span>
                     <label for="post">Origional Post</label>
-                    <input type="url" id="post" name="post" required />
+                    <input type="url" id="post" name="post" pattern="[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)" required />
                 </span>
             </div>
         </div>
