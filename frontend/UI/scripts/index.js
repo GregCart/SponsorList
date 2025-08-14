@@ -20,10 +20,6 @@ const form  = `
                     <input type="text" id="platform" name="platform" required />
                 </span>
                 <span>
-                    <label for="code">Code</label>
-                    <input type="text" id="code" name="code"/>
-                </span>
-                <span>
                     <label for="link">Link</label>
                     <input type="url" id="link" name="link" pattern="[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"/>
                 </span>
