@@ -19,24 +19,6 @@ form input[type=date]  {
     min-width: 120px;
 }
 
-body {
-    color: #222;
-    background: #fff;
-}
-
-body input:disabled {
-    color: #fff
-}
-
-body.dark-theme {
-    color: #eee;
-    background: #121212;
-}
-
-body.dark-theme input:disabled {
-    color: #eee
-}
-
 .centered {
     position: relative;
     /* top: 50%; */
@@ -92,4 +74,28 @@ body.dark-theme input:disabled {
 .header-center {
     margin: 0 auto;
     text-align: center;
+}
+
+/* Sponsors Table Styles - compatible with .centered table and <td> headers */
+#SponsorTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#SponsorTable td, #SponsorTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#SponsorTable thead td {
+  cursor: pointer; /* Indicate sortable headers */
+}
+
+#SponsorTable thead td.sorted-asc::after {
+  content: " ▲";
+}
+
+#SponsorTable thead td.sorted-desc::after {
+  content: " ▼";
 }

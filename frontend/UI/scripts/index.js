@@ -240,3 +240,36 @@ async function init() {
         toggleButton.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
     });
 }
+
+//make table sortable according to copilot
+document.addEventListener("DOMContentLoaded", function() {
+    const table = document.querySelector("#SponsorTable table");
+    const headers = table.querySelectorAll("thead td");
+    const tbody = table.querySelector("tbody");
+
+    headers.forEach((header, idx) => {
+        header.style.cursor = "pointer";
+        header.addEventListener("click", function() {
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            const isAsc = header.classList.toggle("asc");
+            rows.sort((a, b) => {
+                let valA = a.children[idx].textContent.trim();
+                let valB = b.children[idx].textContent.trim();
+
+                // Try to parse as number or date, fallback to string
+                let numA = parseFloat(valA);
+                let numB = parseFloat(valB);
+                if (!isNaN(numA) && !isNaN(numB)) {
+                    return isAsc ? numA - numB : numB - numA;
+                }
+                let dateA = Date.parse(valA);
+                let dateB = Date.parse(valB);
+                if (!isNaN(dateA) && !isNaN(dateB)) {
+                    return isAsc ? dateA - dateB : dateB - dateA;
+                }
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            });
+            rows.forEach(row => tbody.appendChild(row));
+        });
+    });
+});
