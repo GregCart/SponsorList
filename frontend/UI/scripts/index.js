@@ -121,13 +121,13 @@ function addSponsorToTable(objList) {
 
 function populate() {
     service.listObjects().then(data => {
-        console.log("Data: ");
-        console.log(data);
+        // console.log("Data: ");
+        // console.log(data);
         data.forEach(datum => {
             // console.log("Datum:");
             // console.log(datum);
             service.listObjects(datum, "").then(datumData => {
-                console.log("Datum Data: " + datumData);
+                // console.log("Datum Data: " + datumData);
                 addSponsorToTable(datumData);
             }).catch(err => {
                 console.error("Error fetching object:", err);
