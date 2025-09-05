@@ -1,3 +1,11 @@
+header {
+    text-align: center;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 td {
     outline-style: solid;
     outline-width: 2px;
@@ -55,25 +63,22 @@ form input[type=date]  {
 
 /* Header layout for auth left, header center */
 .header-flex {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    width: 100%;
+    flex-direction: row;
     margin-top: 10px;
+    display: flex;
 }
 
 .header-flex .auth {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 5%;
     margin-right: 20px;
     border-radius: 2px;;
 }
 
 .header-center {
     margin: 0 auto;
-    text-align: center;
+    flex-direction: column;
 }
 
 #searchDiv {
