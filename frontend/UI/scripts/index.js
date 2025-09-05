@@ -297,14 +297,3 @@ function sortTable(n) {
   }
 }
 
-// Add event listeners to header cells for sorting
-$(document).ready(function() {
-  const table = document.getElementById("SponsorTable");
-  const headers = table.querySelectorAll("thead td");
-  headers.forEach((header, idx) => {
-    header.style.cursor = "pointer";
-    header.addEventListener("click", function() {
-      sortTable(idx);
-    });
-  });
-});

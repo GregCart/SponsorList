@@ -10,6 +10,10 @@ td {
     padding-right: 10px;
 }
 
+table {
+    display: block;
+}
+
 form {
     display: inline-table;
     max-width: 1050px;
@@ -98,4 +102,35 @@ form input[type=date]  {
 
 #SponsorTable thead td.sorted-desc::after {
   content: " ▼";
+}
+
+@media (max-width: 768px) {
+  .header-flex, .header-center {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  #SponsorTable {
+    width: 100vw !important;
+    overflow-x: auto !important;
+  }
+  #SponsorTable table {
+    display: block !important;
+    width: 100% !important;
+    min-width: 600px !important;
+    overflow-x: auto !important;
+  }
+  td, th {
+    font-size: 14px !important;
+    padding: 4px !important;
+  }
+  .centered {
+    left: 0 !important;
+    transform: none !important;
+    position: static !important;
+  }
+  .header-flex .auth {
+    position: static !important;
+    margin: 0 0 10px 0 !important;
+  }
 }
