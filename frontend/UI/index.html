@@ -25,19 +25,25 @@
                 // Then toggle (add/remove) the .dark-theme class to the body
                     document.body.classList.toggle('dark-theme');  
                 });
-
-                init();
             });
+
             // Add event listeners to header cells for sorting
             $(document).ready(function() {
-            const table = document.getElementById("SponsorTable");
-            const headers = table.querySelectorAll("thead td");
-            headers.forEach((header, idx) => {
-                header.style.cursor = "pointer";
-                header.addEventListener("click", function() {
-                sortTable(idx);
+                init();
+
+                const table = document.getElementById("SponsorTable");
+                const headers = table.querySelectorAll("thead td");
+                headers.forEach((header, idx) => {
+                    header.style.cursor = "pointer";
+                    header.addEventListener("click", function() {
+                    sortTable(idx);
+                    });
                 });
-            });
+
+                const searchInput = document.getElementById("search");
+                searchInput.addEventListener("input", function() {
+                    filterTable(); 
+                });
             });
         </script>
     </head>
@@ -45,6 +51,7 @@
         <noscript>Please enable JS, I promise it's necessary for this page</noscript>
         <header>
             <h3>This Website is currently under construction, and may not function properly for the time being!</h3>
+            <h5>If something is broken, please try refreshing the page</h5>
             <br />
             <div class="header-flex">
                 <div class="auth"></div>
@@ -62,6 +69,10 @@
         <br />
         <br />
         <div id="SponsorTableDiv">
+            <span id="searchDiv">
+                <p>Search: <input id="search" name="search" type="search" class="search" placeholder="tabletoprug"/></p>
+                <p>Exact <input id="exact" name="search" type="checkbox"/></p>
+            </span>
             <table id="SponsorTable" class="centered">
                 <thead>
                     <row>

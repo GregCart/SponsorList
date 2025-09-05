@@ -80,6 +80,24 @@ form input[type=date]  {
     text-align: center;
 }
 
+#searchDiv {
+    position: relative;
+    right: 10px;
+    bottom: 20px;
+    margin-right: 20px;
+    /* border-radius: 2px; */
+    display: inline;
+    gap: 25px;
+    align-items: left;
+    text-align: left;
+    justify-content: center;
+}
+
+#searchDiv p {
+    display: inline;
+    margin: 0 10px 0 10px;
+}
+
 /* Sponsors Table Styles - compatible with .centered table and <td> headers */
 #SponsorTable table {
   width: 100%;

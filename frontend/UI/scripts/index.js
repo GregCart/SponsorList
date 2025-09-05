@@ -71,9 +71,9 @@ const form  = `
     </form>
 `; 
 
-function formatData(objList) {
+function addSponsorToTable(objList) {
     let body = document.getElementById("tableBody");
-    body.innerHTML = ""; // Clear previous rows
+    // body.innerHTML = ""; // Clear previous rows
 
     // console.log(typeof objList[0], objList);
 
@@ -121,15 +121,14 @@ function formatData(objList) {
 
 function populate() {
     service.listObjects().then(data => {
-        // console.log("Data: ");
-        // console.log(data);
+        console.log("Data: ");
+        console.log(data);
         data.forEach(datum => {
             // console.log("Datum:");
             // console.log(datum);
             service.listObjects(datum, "").then(datumData => {
-                // console.log("Datum Data: ");
-                // console.log(datumData);
-                formatData(datumData);
+                console.log("Datum Data: " + datumData);
+                addSponsorToTable(datumData);
             }).catch(err => {
                 console.error("Error fetching object:", err);
             });
@@ -297,3 +296,27 @@ function sortTable(n) {
   }
 }
 
+function filterTable() {
+  var input, filter, table, tr, td, i, j, txtValue;
+  input = document.getElementById("search");
+  filter = input.value;
+  table = document.getElementById("SponsorTable");
+  tr = table.getElementsByTagName("tr");
+  const exactMatch = document.getElementById("exact").checked;
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 1; i < tr.length; i++) {
+    tr[i].style.display = "none"; // Hide the row initially
+    td = tr[i].getElementsByTagName("td");
+    for (j = 0; j < td.length; j++) {
+      if (td[j]) {
+        txtValue = td[j].textContent || td[j].innerText;
+        if ((exactMatch && txtValue === filter) || 
+            (!exactMatch && txtValue.toUpperCase().includes(filter.toUpperCase()))) {
+          tr[i].style.display = ""; // Show the row if a match is found
+          break; // No need to check other cells in this row
+        }
+      }
+    }
+  }
+}
