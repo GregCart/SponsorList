@@ -81,28 +81,29 @@ form input[type=date]  {
     flex-direction: column;
 }
 
+/* #SponsorTableDiv {
+  overflow-x: auto;
+  /* width: 80%; *  /
+} */
+
 #searchDiv {
-    position: relative;
-    right: 10px;
-    bottom: 20px;
-    margin-right: 20px;
-    /* border-radius: 2px; */
-    display: inline;
-    gap: 25px;
-    align-items: left;
-    text-align: left;
-    justify-content: center;
+  position: relative;
+  margin-right: 55%;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+  align-self: center;
 }
 
 #searchDiv p {
-    display: inline;
-    margin: 0 10px 0 10px;
+    display: inline-block;
 }
 
 /* Sponsors Table Styles - compatible with .centered table and <td> headers */
 #SponsorTable table {
-  width: 100%;
+  /* width: 100%; */
   border-collapse: collapse;
+  overflow-x: auto;
 }
 
 #SponsorTable td, #SponsorTable th {
