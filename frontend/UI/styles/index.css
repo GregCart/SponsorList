@@ -1,6 +1,9 @@
-* {
+header {
     text-align: center;
     position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 td {
@@ -10,6 +13,11 @@ td {
     padding-right: 10px;
 }
 
+table {
+    display: block;
+    width: 85%;
+}
+
 form {
     display: inline-table;
     max-width: 1050px;
@@ -17,24 +25,6 @@ form {
 
 form input[type=date]  {
     min-width: 120px;
-}
-
-body {
-    color: #222;
-    background: #fff;
-}
-
-body input:disabled {
-    color: #fff
-}
-
-body.dark-theme {
-    color: #eee;
-    background: #121212;
-}
-
-body.dark-theme input:disabled {
-    color: #eee
 }
 
 .centered {
@@ -73,23 +63,94 @@ body.dark-theme input:disabled {
 
 /* Header layout for auth left, header center */
 .header-flex {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    width: 100%;
+    flex-direction: row;
     margin-top: 10px;
+    display: flex;
 }
 
 .header-flex .auth {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 5%;
     margin-right: 20px;
     border-radius: 2px;;
 }
 
 .header-center {
     margin: 0 auto;
-    text-align: center;
+    flex-direction: column;
+}
+
+/* #SponsorTableDiv {
+  overflow-x: auto;
+  /* width: 80%; *  /
+} */
+
+#searchDiv {
+  position: relative;
+  margin-right: 55%;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+  align-self: center;
+}
+
+#searchDiv p {
+    display: inline-block;
+}
+
+/* Sponsors Table Styles - compatible with .centered table and <td> headers */
+#SponsorTable table {
+  /* width: 100%; */
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+#SponsorTable td, #SponsorTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#SponsorTable thead td {
+  cursor: pointer; /* Indicate sortable headers */
+}
+
+#SponsorTable thead td.sorted-asc::after {
+  content: " ▲";
+}
+
+#SponsorTable thead td.sorted-desc::after {
+  content: " ▼";
+}
+
+@media (max-width: 768px) {
+  .header-flex, .header-center {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  #SponsorTable {
+    width: 100vw !important;
+    overflow-x: auto !important;
+  }
+  #SponsorTable table {
+    display: block !important;
+    width: 100% !important;
+    min-width: 600px !important;
+    overflow-x: auto !important;
+  }
+  td, th {
+    font-size: 14px !important;
+    padding: 4px !important;
+  }
+  .centered {
+    left: 0 !important;
+    transform: none !important;
+    position: static !important;
+  }
+  .header-flex .auth {
+    position: static !important;
+    margin: 0 0 10px 0 !important;
+  }
 }
