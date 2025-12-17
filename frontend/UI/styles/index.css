@@ -1,94 +1,94 @@
 header {
-    text-align: center;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  text-align: center;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 td {
-    outline-style: solid;
-    outline-width: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
+  outline-style: solid;
+  outline-width: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 table {
-    display: block;
-    width: 85%;
+  display: block;
+  /* width: 85%; */
 }
 
 form {
-    display: inline-table;
-    max-width: 1050px;
+  display: inline-table;
+  max-width: 1050px;
 }
 
 form input[type=date]  {
-    min-width: 120px;
+  min-width: 120px;
 }
 
 .centered {
-    position: relative;
-    /* top: 50%; */
-    left: 50%;
-    transform: translate(-50%, 0%);
+  position: relative;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 .spaced {
-    display: table;
-    width: 100%;
-    table-layout: auto;
+  display: table;
+  width: 100%;
+  table-layout: auto;
 }
 
 .spaced div {
-    display: table-row;
+  display: table-row;
 }
 
 .spaced div span {
-    display: table-cell;
-    text-align: center;
+  display: table-cell;
+  text-align: center;
 }
 
 .spaced div span span {
-    display: table-cell;
-    padding-left: 5px;
-    padding-right: 5px;
+  display: table-cell;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .spaced div span * {
-    display: block;
-    margin: auto;
-    width: auto;
+  display: block;
+  margin: auto;
+  width: auto;
 }
 
 /* Header layout for auth left, header center */
 .header-flex {
-    flex-direction: row;
-    margin-top: 10px;
-    display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  display: flex;
 }
 
 .header-flex .auth {
-    position: absolute;
-    right: 0;
-    top: 5%;
-    margin-right: 20px;
-    border-radius: 2px;;
+  position: absolute;
+  right: 0;
+  top: 5%;
+  margin-right: 20px;
+  border-radius: 2px;;
 }
 
 .header-center {
-    margin: 0 auto;
-    flex-direction: column;
+  margin: 0 auto;
+  flex-direction: column;
 }
 
-/* #SponsorTableDiv {
+#SponsorTableDiv {
   overflow-x: auto;
-  /* width: 80%; *  /
-} */
+  width: 90vw;
+}
 
 #searchDiv {
   position: relative;
-  margin-right: 55%;
+  margin-right: 25%;
   margin-bottom: 20px;
   display: block;
   text-align: center;
@@ -96,12 +96,16 @@ form input[type=date]  {
 }
 
 #searchDiv p {
-    display: inline-block;
+  display: inline-block;
 }
+
+/* #SponsorTable {
+  width: 90vw;
+} */
 
 /* Sponsors Table Styles - compatible with .centered table and <td> headers */
 #SponsorTable table {
-  /* width: 100%; */
+  width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
 }
