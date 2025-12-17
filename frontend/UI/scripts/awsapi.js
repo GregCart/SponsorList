@@ -66,7 +66,11 @@ class S3Service {
     putObject(body) {
         let user = body['user'] ? body['user'] : auth.user.profile["cognito:username"] ? auth.user.profile["cognito:username"] : "testUser";
         // let date = body["added"] ? body["added"] : new Date();
-        var key = encodeURIComponent(new Date(body["added"]).toISOString().split("T")[0]) + "/" + 
+        let dateString = new Date(body["added"]).toISOString().split("T");
+        let year = dateString[0].split("-")[0];
+        let month = dateString[0].split("-")[1];
+        let day = dateString[0].split("-")[2];
+        var key = year + "/" + month + "/" + day + "/" + 
                     encodeURIComponent(body["personality"] + "-" + body["sponsor"] + "-" + user ) + ".json";
 
         return new Promise((resolve, reject) => {
