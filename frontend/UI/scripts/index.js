@@ -123,6 +123,7 @@ function addSponsorToTable(objList) {
 }
 
 function populate() {
+    document.getElementById("tableBody").innerHTML = "";
     service.listObjects().then(data => {
         // console.log("Data: ");
         // console.log(data);
