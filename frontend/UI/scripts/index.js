@@ -104,8 +104,8 @@ function addSponsorToTable(objList) {
                 sponsor.start ? new Date(sponsor.start).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit'}) : "",
                 sponsor.added ? new Date(sponsor.added).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                 sponsor.checked ? new Date(sponsor.checked).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
-                sponsor.valid,
-                sponsor.scam,
+                sponsor.valid ? sponsor.valid.length : 0,
+                sponsor.scam ? sponsor.scam.length : 0,
                 sponsor.verified ? new Date(sponsor.verified).toLocaleString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "",
                 sponsor.user ? sponsor.user : "Unknown"
             ].forEach(val => {
