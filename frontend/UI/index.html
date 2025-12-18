@@ -44,7 +44,8 @@
 
                 const searchInput = document.getElementById("searchDiv");
                 searchInput.addEventListener("input", function() {
-                    filterTable(); 
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => filterTable(), 300); // Wait 300ms after typing stops
                 });
             });
         </script>

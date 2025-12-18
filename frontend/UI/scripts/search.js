@@ -1,5 +1,6 @@
 let fuseInstance = null;
 let tableData = [];
+let searchTimeout;
 
 function buildSearchIndex() {
     const table = document.getElementById("SponsorTable");
