@@ -15,8 +15,8 @@ This is a simple web application for tracking and displaying sponsorships for on
 
 ## Credits
 - Developed by: GregCart, TableTopRug
-- Assisted by: GitHub Copilot, powered by OpenAI and Microsoft
+- Assisted by: GitHub Copilot, powered by OpenAI and Microsoft, and Clause Sonnet 4.5
 
 ---
 
-*This project was built with the help of GitHub Copilot, an AI coding assistant by Microsoft and OpenAI.*
+*This project was built with the help of GitHub Copilot, an AI coding assistant by Microsoft and OpenAI, as well as Clause Sonnet 4..5.*
