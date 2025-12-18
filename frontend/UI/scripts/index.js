@@ -238,6 +238,8 @@ async function init() {
         document.getElementById("AddSponsorBox").removeAttribute("disabled");
         document.getElementById("AddSponsorBox").innerHTML = form;   
         setupForm();
+
+        await runMigration();
     }
     populate();
 
@@ -303,4 +305,28 @@ function sortTable(n) {
       }
     }
   }
+}
+
+async function runMigration() {
+    // Check if user is authenticated
+    if (!await auth.isAuthenticated()) {
+        console.log("Migration requires authentication. Please log in.");
+        return { success: 0, failed: 0, total: 0, error: "Not authenticated" };
+    }
+    
+    console.log("Initializing migration...");
+    
+    // Create migration instance
+    const migration = new S3Migration(service);
+    
+    // Run migration
+    const result = await migration.migrateAllOldFormat();
+    
+    // Refresh the table after migration
+    if (result.success > 0) {
+        console.log("Refreshing table...");
+        populate();
+    }
+    
+    return result;
 }
