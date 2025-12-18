@@ -124,15 +124,20 @@ function addSponsorToTable(objList) {
 
 function populate() {
     document.getElementById("tableBody").innerHTML = "";
+
     service.listObjects().then(data => {
-        // console.log("Data: ");
-        // console.log(data);
+        let loadedCount = 0;
+        const totalFolders = data.length;
+        
         data.forEach(datum => {
-            // console.log("Datum:");
-            // console.log(datum);
             service.listObjects(datum, "").then(datumData => {
-                // console.log("Datum Data: " + datumData);
                 addSponsorToTable(datumData);
+                loadedCount++;
+                
+                // Rebuild search index after all data is loaded
+                if (loadedCount === totalFolders) {
+                    setTimeout(() => buildSearchIndex(), 500); // Small delay to ensure DOM is updated
+                }
             }).catch(err => {
                 console.error("Error fetching object:", err);
             });
@@ -295,31 +300,6 @@ function sortTable(n) {
       if (switchcount == 0 && dir == "asc") {
         dir = "desc";
         switching = true;
-      }
-    }
-  }
-}
-
-function filterTable() {
-  var input, filter, table, tr, td, i, j, txtValue;
-  input = document.getElementById("search");
-  filter = input.value;
-  table = document.getElementById("SponsorTable");
-  tr = table.getElementsByTagName("tr");
-  const exactMatch = document.getElementById("exact").checked;
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 1; i < tr.length; i++) {
-    tr[i].style.display = "none"; // Hide the row initially
-    td = tr[i].getElementsByTagName("td");
-    for (j = 0; j < td.length; j++) {
-      if (td[j]) {
-        txtValue = td[j].textContent || td[j].innerText;
-        if ((exactMatch && txtValue === filter) || 
-            (!exactMatch && txtValue.toUpperCase().includes(filter.toUpperCase()))) {
-          tr[i].style.display = ""; // Show the row if a match is found
-          break; // No need to check other cells in this row
-        }
       }
     }
   }
